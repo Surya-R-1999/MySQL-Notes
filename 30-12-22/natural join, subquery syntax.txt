@@ -1,0 +1,106 @@
+NATURAL JOIN
+-----------------
+ TABLES ARE JOINED NATURALLY
+  ON COMMON COLUMNS
+
+ * JOIN CONDITION SHOULD NOT BE
+   SPECIFIED
+
+
+* WHEN MULTIPLE COMMON COLUMNS
+  ARE THERE WE CANT SPECIFY
+  JOINING CONDITION ON SPECIFC COLUMN
+
+
+USING
+-----------
+  * WHEN MULTIPLE COMMON COLUMNS
+    ARE THERE WE CAN USE
+    USING OPTION THAN NATURAL
+
+
+
+
+
+
+
+SUBQUERY
+-----------------
+  * SELECT INSIDE SELECT
+  * EVLUATING UNKNOWN THROUGH KNOWN
+
+
+  RULES
+  -----------
+   1. SUBQUERY EXECUTES 1ST
+   2. RESULT WILL BE USED BY OUTER QUERY AND THEN GETS EXECUTED
+   3. SUBQUERY SHOULD BE ENCLOSED IN BRACKETS
+
+
+FIND OUT EMPLOYEES WHO JOINED AFTER Lisa   first_name
+
+  find out employees working in the same department as
+  Hermann Baer .
+  Exclude Hermann Baer  row
+
+
+
+
+select  concat(first_name,' ',last_name) "fullname"
+from  employees
+where   department_id=(select department_id from employees
+                       where concat(first_name,' ',last_name)
+                       ='Neena Kochhar')
+
+
+
+
+
+
+
+ SUBQUERIES
+ --------------
+  SINGLE ROW        RETURNS 1 ROW              =,<>,<,>
+  MULTIPLE ROW      RETURNS MORE THAN 1 ROW    IN,NOT IN,ANY,ALL
+  MULTIPLE COLUMN
+  NESTED
+  CORRELATED
+
+
+
+
+ FIND OUT DEPARTMENT_NAME WHERE NO SA_REP WORKING
+
+FIND OUT EMPLYEES WHO JOINED ON THE SAME DATE AS Laura,Susan
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

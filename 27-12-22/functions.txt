@@ -1,0 +1,185 @@
+Functions:
+----------
+
+1) single row fn - return's one value per row.
+
+2) multiple row fn - return's only one value of multiple rows.
+
+In Single Row fn's there are 4 types,
+
+* character function
+----------------------
+	
+	1. concat(col1," any string ",col2) "alias_name" eg: select concat(ename, "\'s job is ",job) from emp; here \ is used as escape sequence.
+	
+	2. upper(<col_name>)
+
+	3. lower(<col_name>)
+
+	4.1 substr(str,1) -> from 1st position remaining will be displayed.(In MySQL the index starts from 1)
+
+	4.2 substr(str,1,3) -> from 1st position till 3rd character. eg: set @var1 = "helloworld"; select @var1,substr(@var1,5),substr(@var1,6,1); output : oworld , w
+	
+	example: query to display ename in upper case except last letter.  select CONCAT(UPPER(SUBSTR(ename,1,length(ename)-1)),LOWER(SUBSTR(ename,-1))) as ename from emp;
+
+	5. Instr(str,"char") -> position of the specified character's first occurance. eg:  select ename, instr(ename,substr(ename,-1)) from emp where instr(ename,substr(ename,-1)) < length(ename);
+	
+	6. left(str,1) -> 1st character is fetched. 
+
+	7. right(str,1) -> last character is fetched.
+	
+	ex: select ename, concat(lower(left(ename,length(ename)-1)), right(ename,1)) from emp;
+	---
+
+	8. trim(" jdsgjgl ") -> trims the space. (or) trim("h" from "helloh"); -> output: ello 
+
+	8.1. ltrim("  gcdg") -> trims the left space. 
+
+	8.2. rtrim(" dglsivgli ") -> trims the right space.
+
+	9. replace("mary had a little lamb", "lamb", "bomb"); -> output: mary had a little bomb. EG: FINDING NUMBER OF A'S IN STR. SELECT LENGTH(@VAR1) - LENGTH(REPLACE(@VAR1,"A",""));
+	
+	10. LPAD/RPAD : PADDING CHARACTERS IN LEFT AND RIGHT SIDE.  TO GET ALLIGNMENT. 15 REFERS THE TOTAL CHARACTERS. SELECT ENAME, LPAD(ENAME,15,"*") "LPAD", RPAD(ENAME,15,"$") "RPAD" FROM EMP;
+
+	11. REPEAT : Repeat a string 10 times. eg: SELECT REPEAT("HELLO",10);
+
+	12. reverse : string is reversed. eg: select reverse("abc"); output: cba.
+
+
+* number function:
+--------------------
+
+	1. MOD(INTEGER_COLUMN , 2)
+
+	EXAMPLE: FIND ODD EMPLOYEES FROM EMP TABLE.
+
+	SELECT EMPNO FROM EMP WHERE MOD(EMPNO,2) = 1;
+
+	2. SIGN(A,B) RESULTS:  IF A=B THEN 0 , A>B THEN 1, A<B THEN -1. POSSIBLE OUTCOMES (-1 , 0 , 1)
+	
+	EXAMPLE 1 : SET @N1 = 10, @N2 = 20, @N3 = 10; SELECT SIGN(@N1 - @N2), SIGN(@N1 - @N3), SIGN(@N2 - @N3); OUTPUT: -1 , 0 , 1.
+
+	EXAMPLE 2 : SELECT ENAME, SAL, COMM FROM EMP WHERE SIGN(COMM - SAL) = 1; IF COMM > SAL THEN THOSE RECORDS ARE EXTRACTED.
+	
+	3. SELECT ABS(-98), ASCII("A"), CHAR(97 USING ASCII); OUTPUT : 98 , 65, a
+
+	4. CHAR : To convert to ascii character from integer. 
+
+	5. ROUND(decimal number , int) 
+	
+	example : round(153.254 , 2) output : 153.25
+
+	example : round(157.258 , -2) output : 200
+
+	example : round(157.258 , -3) output : 0
+
+	6.TRUNCATE
+
+	example : truncate(157.258 , -2) output : 100
+
+	7. CEIL
+
+	example : ceil(91.1) output : 92
+
+	8. FLOOR
+
+	example : floor(91.9) output : 91
+
+
+* date functions : 
+-------------------------
+
+
+	1. CURRENT_DATE() OR CURDATE() : 2022-12-27
+
+	2. NOW() : DATE AND TIMESTAMP
+
+	3. SYSDATE() : DATE AND TIMESTAMP
+
+	4. CURRENT_TIMESTAMP() : DATE AND TIMESTAMP 
+
+	(2 , 3 , 4) ALL PRODUCES SAME RESULT.
+
+	5. DATE(ANY 1 OF 2,3,4) -> DATE
+
+	6. TIME(ANY 1 OF 2,3,4) -> TIME
+
+	7. YEAR()
+
+	8. MONTH()
+
+	9. MONTHNAME()
+
+	10. DAY()
+
+	11. DAYNAME()
+
+	EXAMPLES : 
+	-----------
+
+	SELECT EMPNO, ENAME FROM EMP WHERE DAYNAME(HIREDATE) = "TUESDAY";
+
+	SELECT EMPNO, ENAME FROM EMP WHERE MONTHNAME(HIREDATE) = "DECEMBER";
+
+	SELECT EMPNO, ENAME FROM EMP WHERE YEAR(HIREDATE) = 1981 AND ENAME NOT LIKE "%S%";
+
+	12. QUARTER() -> POSSIBLE OUTCOMES : 1,2,3,4. 
+
+	13. HOUR()
+
+	14. MI()
+
+	15. DATE FORMATS( DATETIME , " 15. SERIES ")
+	    -------------
+
+		15.1 %a -> 3 letter day
+		
+		15.2 %W -> whole day
+
+		15.3 %b -> 3 letter month =
+
+		15.4 %M -> full month =
+ 
+		15.5 %y -> 2 digits of year =
+
+		15.6 %Y -> 4 digits of year =
+
+		15.7 %d -> day count in month =
+
+		15.8 %w -> day count in week
+
+		15.9 %j -> day count in year
+
+
+	EXAMPLE: FIND ENAME WHO BORN IN LEAP YEAR.
+
+	SELECT ENAME, EMPNO, HIREDATE FROM EMP WHERE (MOD(YEAR(HIREDATE),4) = 0  AND MOD(YEAR(HIREDATE),100) != 100 ) OR MOD(YEAR(HIREDATE),400) = 0;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,70 @@
+* multi valued attributes should be splitted as parent and child tables via referential integrity.
+
+* since multi values are used, redundancy comes into picture.
+
+* denoted by double oval.
+
+* derived attribute : select id + 10 as "new_id" from table_name.
+
+Here new_id attribute is derived, not physically present. 
+It is denoted by dotted eclipse/oval.
+
+* updating a record for specific attribute use update, set and where fn's. not the insert command.
+
+* views - virtual table.
+
+* whenever a derived attribute is present, we can implement with views.
+
+create view stud_age_view as select s.id, s.name, s.dob, timestampdiff(year, s.dob, curdate()) "age" from student s;
+
+* composite attribute : An attribute can be composed of many attributes. eg: address can have city, state etc.....
+
+eg:
+
+Alter table student add (`street` varchar(20), `city` varchar(20), pincode numeric(6));  
+
+update student set street = "1st main", city = "Bangalore", pincode = 560010 where id = 101;
+
+create view stud_address_view as select name, concat(street," ",city, " ",pincode," ") address from student; // derived table or virtual table.
+
+select * from stud_address_view;
+
+WHILE CONVERTING THE ER DIAGRAM TO TABLES, WE HAVE SOME ISSUES LIKE
+
+* REDUNDANCY AND ANOMALIES.
+
+https://1drv.ms/x/s!AjVTNPfWSedDmBEHL8QCymlLjUHa?e=oiuL3r
+
+DUPLICTE RECORDS & (INSERT, UPDATE AND DELETE).
+----------------------------------------------
+
+
+TO OVERCOME THE ABOVE DRAWBACKS WE IMPLEMENT NORMALIZATION.
+
+NORMALIZATION: DECOMPOSING TEH LARGE TABLES TO SMALL TABLES CONNECTED VIA RELATIONS OR LINKS.
+
+DEPENDENCIES:
+----------------
+
+1) FUNCTIONAL DEPENDENCIES : 
+2) PARTIAL DEPENDENCIES : WHENEVER COMPOSITE KEY IS PRESENT.
+(A, B, C) A & B ARE COMPOSITE PRIMARY KEYS. COLUMN C CAN BE EITHER DEPEND ON A OR B.
+3) TRANSITIVE DEPENDENCIES
+B DEPENDS ON A , C DEPENDS ON B THEN C AND A IS TRANSITIVE DEPENDENCY.
+B -> A , C -> B THEN C -> A IS TRANSITIVE DEPENDENCY.
+
+NORMALIZATION FORMS:  
+---------------------
+
+1) 1NF - ELIMINATE REPEATING GROUPS AND ENSURES ATOMIC VALUES.
+2) 2NF - 
+3) 3NF
+
+CONSTRAINSTS IN 2 LEVELS:
+-------------------------
+
+1. COLUMN LEVEL (NOT NULL, PK, UNI, CHK)
+2. TABLE LEVEL (PK, UNI, CHK, FK)
+
+EXCEPT NOT NULL WE CAN USE OTHER CONSTRAINTS IN TABLE LEVEL.
+AND FOREIGN KEY SHOULD NOT BE IMPLEMENTED IN COLUMN LEVEL.

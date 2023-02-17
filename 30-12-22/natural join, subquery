@@ -1,0 +1,1511 @@
+mysql> \! cls
+mysql> use hr;
+Database changed
+mysql> select * from regions
+    -> ;
++-----------+------------------------+
+| region_id | region_name            |
++-----------+------------------------+
+|         1 | Europe                 |
+|         2 | Americas               |
+|         3 | Asia                   |
+|         4 | Middle East and Africa |
++-----------+------------------------+
+4 rows in set (0.01 sec)
+
+mysql> select * from countries;
++------------+--------------------------+-----------+
+| country_id | country_name             | region_id |
++------------+--------------------------+-----------+
+| AR         | Argentina                |         2 |
+| AU         | Australia                |         3 |
+| BE         | Belgium                  |         1 |
+| BR         | Brazil                   |         2 |
+| CA         | Canada                   |         2 |
+| CH         | Switzerland              |         1 |
+| CN         | China                    |         3 |
+| DE         | Germany                  |         1 |
+| DK         | Denmark                  |         1 |
+| EG         | Egypt                    |         4 |
+| FR         | France                   |         1 |
+| HK         | HongKong                 |         3 |
+| IL         | Israel                   |         4 |
+| IN         | India                    |         3 |
+| IT         | Italy                    |         1 |
+| JP         | Japan                    |         3 |
+| KW         | Kuwait                   |         4 |
+| MX         | Mexico                   |         2 |
+| NG         | Nigeria                  |         4 |
+| NL         | Netherlands              |         1 |
+| SG         | Singapore                |         3 |
+| UK         | United Kingdom           |         1 |
+| US         | United States of America |         2 |
+| ZM         | Zambia                   |         4 |
+| ZW         | Zimbabwe                 |         4 |
++------------+--------------------------+-----------+
+25 rows in set (0.00 sec)
+
+mysql> 
+mysql> select r.region_name,c.country_name
+    -> from  regions r inner join countries c
+    -> on    r.region_id=c.region_id;
++------------------------+--------------------------+
+| region_name            | country_name             |
++------------------------+--------------------------+
+| Europe                 | Belgium                  |
+| Europe                 | Switzerland              |
+| Europe                 | Germany                  |
+| Europe                 | Denmark                  |
+| Europe                 | France                   |
+| Europe                 | Italy                    |
+| Europe                 | Netherlands              |
+| Europe                 | United Kingdom           |
+| Americas               | Argentina                |
+| Americas               | Brazil                   |
+| Americas               | Canada                   |
+| Americas               | Mexico                   |
+| Americas               | United States of America |
+| Asia                   | Australia                |
+| Asia                   | China                    |
+| Asia                   | HongKong                 |
+| Asia                   | India                    |
+| Asia                   | Japan                    |
+| Asia                   | Singapore                |
+| Middle East and Africa | Egypt                    |
+| Middle East and Africa | Israel                   |
+| Middle East and Africa | Kuwait                   |
+| Middle East and Africa | Nigeria                  |
+| Middle East and Africa | Zambia                   |
+| Middle East and Africa | Zimbabwe                 |
++------------------------+--------------------------+
+25 rows in set (0.00 sec)
+
+mysql> 
+mysql> SELECT REGION_NAME,COUNTRY_NAME
+    -> FROM   REGIONS NATURAL JOIN COUNTRIES;
++------------------------+--------------------------+
+| REGION_NAME            | COUNTRY_NAME             |
++------------------------+--------------------------+
+| Europe                 | Belgium                  |
+| Europe                 | Switzerland              |
+| Europe                 | Germany                  |
+| Europe                 | Denmark                  |
+| Europe                 | France                   |
+| Europe                 | Italy                    |
+| Europe                 | Netherlands              |
+| Europe                 | United Kingdom           |
+| Americas               | Argentina                |
+| Americas               | Brazil                   |
+| Americas               | Canada                   |
+| Americas               | Mexico                   |
+| Americas               | United States of America |
+| Asia                   | Australia                |
+| Asia                   | China                    |
+| Asia                   | HongKong                 |
+| Asia                   | India                    |
+| Asia                   | Japan                    |
+| Asia                   | Singapore                |
+| Middle East and Africa | Egypt                    |
+| Middle East and Africa | Israel                   |
+| Middle East and Africa | Kuwait                   |
+| Middle East and Africa | Nigeria                  |
+| Middle East and Africa | Zambia                   |
+| Middle East and Africa | Zimbabwe                 |
++------------------------+--------------------------+
+25 rows in set (0.00 sec)
+
+mysql> 
+mysql> SELECT FIRST_NAME,DEPARTMENT_NAME
+    -> FROM  EMPLOYEES NATURAL JOIN DEPARTMENTS;
++-------------+-----------------+
+| FIRST_NAME  | DEPARTMENT_NAME |
++-------------+-----------------+
+| Pat         | Marketing       |
+| Alexander   | Purchasing      |
+| Shelli      | Purchasing      |
+| Sigal       | Purchasing      |
+| Guy         | Purchasing      |
+| Karen       | Purchasing      |
+| Laura       | Shipping        |
+| Mozhe       | Shipping        |
+| James       | Shipping        |
+| TJ          | Shipping        |
+| Nandita     | Shipping        |
+| Alexis      | Shipping        |
+| Julia       | Shipping        |
+| Anthony     | Shipping        |
+| Bruce       | IT              |
+| David       | IT              |
+| Valli       | IT              |
+| Diana       | IT              |
+| Peter       | Sales           |
+| David       | Sales           |
+| Peter       | Sales           |
+| Christopher | Sales           |
+| Nanette     | Sales           |
+| Oliver      | Sales           |
+| Neena       | Executive       |
+| Lex         | Executive       |
+| Daniel      | Finance         |
+| John        | Finance         |
+| Ismael      | Finance         |
+| Jose Manuel | Finance         |
+| Luis        | Finance         |
+| William     | Accounting      |
++-------------+-----------------+
+32 rows in set (0.00 sec)
+
+mysql> 
+mysql> SELECT FIRST_NAME,DEPARTMENT_NAME
+    -> FROM  EMPLOYEES  JOIN DEPARTMENTS
+    -> USING(DEPARTMENT_ID);
++-------------+------------------+
+| FIRST_NAME  | DEPARTMENT_NAME  |
++-------------+------------------+
+| Jennifer    | Administration   |
+| Michael     | Marketing        |
+| Pat         | Marketing        |
+| Den         | Purchasing       |
+| Alexander   | Purchasing       |
+| Shelli      | Purchasing       |
+| Sigal       | Purchasing       |
+| Guy         | Purchasing       |
+| Karen       | Purchasing       |
+| Susan       | Human Resources  |
+| Matthew     | Shipping         |
+| Adam        | Shipping         |
+| Payam       | Shipping         |
+| Shanta      | Shipping         |
+| Kevin       | Shipping         |
+| Julia       | Shipping         |
+| Irene       | Shipping         |
+| James       | Shipping         |
+| Steven      | Shipping         |
+| Laura       | Shipping         |
+| Mozhe       | Shipping         |
+| James       | Shipping         |
+| TJ          | Shipping         |
+| Jason       | Shipping         |
+| Michael     | Shipping         |
+| Ki          | Shipping         |
+| Hazel       | Shipping         |
+| Renske      | Shipping         |
+| Stephen     | Shipping         |
+| John        | Shipping         |
+| Joshua      | Shipping         |
+| Trenna      | Shipping         |
+| Curtis      | Shipping         |
+| Randall     | Shipping         |
+| Peter       | Shipping         |
+| Winston     | Shipping         |
+| Jean        | Shipping         |
+| Martha      | Shipping         |
+| Girard      | Shipping         |
+| Nandita     | Shipping         |
+| Alexis      | Shipping         |
+| Julia       | Shipping         |
+| Anthony     | Shipping         |
+| Kelly       | Shipping         |
+| Jennifer    | Shipping         |
+| Timothy     | Shipping         |
+| Randall     | Shipping         |
+| Sarah       | Shipping         |
+| Britney     | Shipping         |
+| Samuel      | Shipping         |
+| Vance       | Shipping         |
+| Alana       | Shipping         |
+| Kevin       | Shipping         |
+| Donald      | Shipping         |
+| Douglas     | Shipping         |
+| Alexander   | IT               |
+| Bruce       | IT               |
+| David       | IT               |
+| Valli       | IT               |
+| Diana       | IT               |
+| Hermann     | Public Relations |
+| John        | Sales            |
+| Karen       | Sales            |
+| Alberto     | Sales            |
+| Gerald      | Sales            |
+| Eleni       | Sales            |
+| Peter       | Sales            |
+| David       | Sales            |
+| Peter       | Sales            |
+| Christopher | Sales            |
+| Nanette     | Sales            |
+| Oliver      | Sales            |
+| Janette     | Sales            |
+| Patrick     | Sales            |
+| Allan       | Sales            |
+| Lindsey     | Sales            |
+| Louise      | Sales            |
+| Sarath      | Sales            |
+| Clara       | Sales            |
+| Danielle    | Sales            |
+| Mattea      | Sales            |
+| David       | Sales            |
+| Sundar      | Sales            |
+| Amit        | Sales            |
+| Lisa        | Sales            |
+| Harrison    | Sales            |
+| Tayler      | Sales            |
+| William     | Sales            |
+| Elizabeth   | Sales            |
+| Sundita     | Sales            |
+| Ellen       | Sales            |
+| Alyssa      | Sales            |
+| Jonathon    | Sales            |
+| Jack        | Sales            |
+| Charles     | Sales            |
+| Steven      | Executive        |
+| Neena       | Executive        |
+| Lex         | Executive        |
+| Nancy       | Finance          |
+| Daniel      | Finance          |
+| John        | Finance          |
+| Ismael      | Finance          |
+| Jose Manuel | Finance          |
+| Luis        | Finance          |
+| Shelley     | Accounting       |
+| William     | Accounting       |
++-------------+------------------+
+106 rows in set (0.00 sec)
+
+mysql> 
+mysql> 
+mysql> DESC EMPLOYEES;
++----------------+--------------+------+-----+---------+-------+
+| Field          | Type         | Null | Key | Default | Extra |
++----------------+--------------+------+-----+---------+-------+
+| employee_id    | int unsigned | NO   | PRI | NULL    |       |
+| first_name     | varchar(20)  | YES  |     | NULL    |       |
+| last_name      | varchar(25)  | NO   |     | NULL    |       |
+| email          | varchar(25)  | NO   |     | NULL    |       |
+| phone_number   | varchar(20)  | YES  |     | NULL    |       |
+| hire_date      | date         | NO   |     | NULL    |       |
+| job_id         | varchar(10)  | NO   | MUL | NULL    |       |
+| salary         | decimal(8,2) | NO   |     | NULL    |       |
+| commission_pct | decimal(2,2) | YES  |     | NULL    |       |
+| manager_id     | int unsigned | YES  | MUL | NULL    |       |
+| department_id  | int unsigned | YES  | MUL | NULL    |       |
++----------------+--------------+------+-----+---------+-------+
+11 rows in set (0.00 sec)
+
+mysql> DESC DEPARTMENTS;
++-----------------+--------------+------+-----+---------+-------+
+| Field           | Type         | Null | Key | Default | Extra |
++-----------------+--------------+------+-----+---------+-------+
+| department_id   | int unsigned | NO   | PRI | NULL    |       |
+| department_name | varchar(30)  | NO   |     | NULL    |       |
+| manager_id      | int unsigned | YES  | MUL | NULL    |       |
+| location_id     | int unsigned | YES  | MUL | NULL    |       |
++-----------------+--------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
+
+mysql> 
+mysql> select hire_date from employees
+    -> where first_name='Lisa';
++------------+
+| hire_date  |
++------------+
+| 1997-03-11 |
++------------+
+1 row in set (0.00 sec)
+
+mysql> 
+mysql> select first_name,hire_date
+    -> from   employees
+    -> where  hire_date>(select hire_date from employees where first_name='Lisa');
++-------------+------------+
+| first_name  | hire_date  |
++-------------+------------+
+| David       | 1997-06-25 |
+| Valli       | 1998-02-05 |
+| Diana       | 1999-02-07 |
+| John        | 1997-09-28 |
+| Ismael      | 1997-09-30 |
+| Jose Manuel | 1998-03-07 |
+| Luis        | 1999-12-07 |
+| Shelli      | 1997-12-24 |
+| Sigal       | 1997-07-24 |
+| Guy         | 1998-11-15 |
+| Karen       | 1999-08-10 |
+| Adam        | 1997-04-10 |
+| Shanta      | 1997-10-10 |
+| Kevin       | 1999-11-16 |
+| Julia       | 1997-07-16 |
+| Irene       | 1998-09-28 |
+| James       | 1999-01-14 |
+| Steven      | 2000-03-08 |
+| Laura       | 1997-08-20 |
+| Mozhe       | 1997-10-30 |
+| TJ          | 1999-04-10 |
+| Michael     | 1998-08-26 |
+| Ki          | 1999-12-12 |
+| Hazel       | 2000-02-06 |
+| Stephen     | 1997-10-26 |
+| John        | 1998-02-12 |
+| Joshua      | 1998-04-06 |
+| Randall     | 1998-03-15 |
+| Peter       | 1998-07-09 |
+| Gerald      | 1999-10-15 |
+| Eleni       | 2000-01-29 |
+| David       | 1997-03-24 |
+| Peter       | 1997-08-20 |
+| Christopher | 1998-03-30 |
+| Nanette     | 1998-12-09 |
+| Oliver      | 1999-11-23 |
+| Louise      | 1997-12-15 |
+| Sarath      | 1998-11-03 |
+| Clara       | 1997-11-11 |
+| Danielle    | 1999-03-19 |
+| Mattea      | 2000-01-24 |
+| David       | 2000-02-23 |
+| Sundar      | 2000-03-24 |
+| Amit        | 2000-04-21 |
+| Harrison    | 1998-03-23 |
+| Tayler      | 1998-01-24 |
+| William     | 1999-02-23 |
+| Elizabeth   | 1999-03-24 |
+| Sundita     | 2000-04-21 |
+| Alyssa      | 1997-03-19 |
+| Jonathon    | 1998-03-24 |
+| Jack        | 1998-04-23 |
+| Kimberely   | 1999-05-24 |
+| Charles     | 2000-01-04 |
+| Winston     | 1998-01-24 |
+| Jean        | 1998-02-23 |
+| Martha      | 1999-06-21 |
+| Girard      | 2000-02-03 |
+| Julia       | 1998-06-24 |
+| Anthony     | 1999-02-07 |
+| Kelly       | 1997-06-14 |
+| Jennifer    | 1997-08-13 |
+| Timothy     | 1998-07-11 |
+| Randall     | 1999-12-19 |
+| Samuel      | 1998-07-01 |
+| Vance       | 1999-03-17 |
+| Alana       | 1998-04-24 |
+| Kevin       | 1998-05-23 |
+| Donald      | 1999-06-21 |
+| Douglas     | 2000-01-13 |
+| Pat         | 1997-08-17 |
++-------------+------------+
+71 rows in set (0.00 sec)
+
+mysql> 
+mysql> 
+mysql> #find out department_name in which Steven King is working
+mysql> SELECT DEPARTMENT_ID 
+    -> FROM   EMPLOYEES
+    -> WHERE  CONCAT(FIRST_NAME,' ',LAST_NAME)="Steven King';
+    "> ^C
+mysql> SELECT DEPARTMENT_ID
+    -> FROM   EMPLOYEES
+    -> WHERE  CONCAT(FIRST_NAME,' ',LAST_NAME)="Steven King";
++---------------+
+| DEPARTMENT_ID |
++---------------+
+|            90 |
++---------------+
+1 row in set (0.00 sec)
+
+mysql> select department_name 
+    -> from   departments
+    -> where  department_id=(SELECT DEPARTMENT_ID from employees
+    ->                        WHERE  CONCAT(FIRST_NAME,' ',LAST_NAME)="Steven King");
++-----------------+
+| department_name |
++-----------------+
+| Executive       |
++-----------------+
+1 row in set (0.00 sec)
+
+mysql> select e.CONCAT(FIRST_NAME,' ',LAST_NAME),d.department_name
+    -> from   employees inner join departments d
+    -> on     e.department_id=d.department_id
+    -> and    e.CONCAT(FIRST_NAME,' ',LAST_NAME)="Steven King";
+ERROR 1305 (42000): FUNCTION e.CONCAT does not exist
+mysql> select e.CONCAT(FIRST_NAME,' ',LAST_NAME),d.department_name
+    -> from   employees inner join departments d
+    -> on     e.department_id=d.department_id
+    -> and    CONCAT(e.FIRST_NAME,' ',e.LAST_NAME)="Steven King";
+ERROR 1305 (42000): FUNCTION e.CONCAT does not exist
+mysql> select concat(e.first_NAME,' ',LAST_NAME)
+    -> from   employees inner join departments d
+    -> on     e.department_id=d.department_id
+    -> and    CONCAT(e.FIRST_NAME,' ',e.LAST_NAME)="Steven King";
+ERROR 1054 (42S22): Unknown column 'e.first_NAME' in 'field list'
+mysql> select concat(e.first_NAME,' ',e.last_name),d.department_name
+    -> from   employees e inner join departments d
+    -> on     e.department_id=d.department_id
+    -> and    CONCAT(e.FIRST_NAME,' ',e.LAST_NAME)="Steven King";
++--------------------------------------+-----------------+
+| concat(e.first_NAME,' ',e.last_name) | department_name |
++--------------------------------------+-----------------+
+| Steven King                          | Executive       |
++--------------------------------------+-----------------+
+1 row in set (0.00 sec)
+
+mysql> SELECT DEPARTMENT_ID
+    -> FROM   EMPLOYEES
+    -> WHERE  CONCAT(FIRST_NAME,' ',LAST_NAME)="Steven King";
++---------------+
+| DEPARTMENT_ID |
++---------------+
+|            90 |
++---------------+
+1 row in set (0.00 sec)
+
+mysql> select department_name 
+    -> from   departments
+    -> where  department_id=(SELECT DEPARTMENT_ID from employees
+    ->                        WHERE  CONCAT(FIRST_NAME,' ',LAST_NAME)="Steven King");
++-----------------+
+| department_name |
++-----------------+
+| Executive       |
++-----------------+
+1 row in set (0.00 sec)
+
+mysql> 
+mysql> 
+mysql> #find out employees reporting to Neena Kochhar
+mysql> 
+mysql> select e.employee_id,concat(e.first_name,' ',e.last_name) "fullname",e.manager_id
+    -> ,m.employee_id,concat(m.first_name,' ',m.last_name) "manname"
+    -> from employees e join employees m
+    -> on   e.manager_id=m.employee_id
+    -> and  concat(m.first_name,' ',m.last_name)="Neena Kochhar";
++-------------+-----------------+------------+-------------+---------------+
+| employee_id | fullname        | manager_id | employee_id | manname       |
++-------------+-----------------+------------+-------------+---------------+
+|         108 | Nancy Greenberg |        101 |         101 | Neena Kochhar |
+|         200 | Jennifer Whalen |        101 |         101 | Neena Kochhar |
+|         203 | Susan Mavris    |        101 |         101 | Neena Kochhar |
+|         204 | Hermann Baer    |        101 |         101 | Neena Kochhar |
+|         205 | Shelley Higgins |        101 |         101 | Neena Kochhar |
++-------------+-----------------+------------+-------------+---------------+
+5 rows in set (0.00 sec)
+
+mysql> select employee_id from employees where concat(m.first_name,' ',m.last_name)="Neena Kochhar";
+ERROR 1054 (42S22): Unknown column 'm.first_name' in 'where clause'
+mysql> select employee_id from employees where concat(first_name,' ',last_name)="Neena Kochhar";
++-------------+
+| employee_id |
++-------------+
+|         101 |
++-------------+
+1 row in set (0.00 sec)
+
+mysql> select employee_id,concat(first_name,' ',last_name),manager_id
+    -> from   employees
+    -> where  manager_id=(select employee_id from employees where concat(first_name,' ',last_name)="Neena Kochhar");
++-------------+----------------------------------+------------+
+| employee_id | concat(first_name,' ',last_name) | manager_id |
++-------------+----------------------------------+------------+
+|         108 | Nancy Greenberg                  |        101 |
+|         200 | Jennifer Whalen                  |        101 |
+|         203 | Susan Mavris                     |        101 |
+|         204 | Hermann Baer                     |        101 |
+|         205 | Shelley Higgins                  |        101 |
++-------------+----------------------------------+------------+
+5 rows in set (0.00 sec)
+
+mysql> 
+mysql> select * from job_grades;
++-------------+------------+----------+
+| grade_level | lowest_sal | high_sal |
++-------------+------------+----------+
+| A           |    1000.00 |  2999.00 |
+| B           |    3000.00 |  5999.00 |
+| C           |    6000.00 |  9999.00 |
+| D           |   10000.00 | 14999.00 |
+| E           |   15000.00 | 24999.00 |
+| F           |   25000.00 | 40000.00 |
++-------------+------------+----------+
+6 rows in set (0.01 sec)
+
+mysql> select concat(e.first_name,' ',e.last_name) "fullname",e.salary,j.grade_level
+    -> from   employees e join job_grades j
+    -> on     e.salary between j.lowest_sal and j.high_sal
+    -> and    e.deparment_id=90;
+ERROR 1054 (42S22): Unknown column 'e.deparment_id' in 'on clause'
+mysql>  select concat(e.first_name,' ',e.last_name) "fullname",e.salary,j.grade_level
+    ->  from   employees e join job_grades j
+    ->  on     e.salary between j.lowest_sal and j.high_sal
+    -> and    e.department_id=90;
++---------------+----------+-------------+
+| fullname      | salary   | grade_level |
++---------------+----------+-------------+
+| Lex De Haan   | 17000.00 | E           |
+| Neena Kochhar | 17000.00 | E           |
+| Steven King   | 24000.00 | E           |
++---------------+----------+-------------+
+3 rows in set (0.00 sec)
+
+mysql> #find out grade of Lex De Haan using subquery
+mysql> select salary from employees where concat(first_name,' ',last_name)='Lex De Haan';
++----------+
+| salary   |
++----------+
+| 17000.00 |
++----------+
+1 row in set (0.00 sec)
+
+mysql> select grade_level
+    -> from   job_grades
+    -> where (select salary from employees where concat(first_name,' ',last_name)='Lex De Haan') between lowest_sal and high_sal
+    -> ;
++-------------+
+| grade_level |
++-------------+
+| E           |
++-------------+
+1 row in set (0.00 sec)
+
+mysql> 
+mysql> 
+mysql> 
+mysql> select  concat(first_name,' ',last_name) "fullname"
+    -> from  employees
+    -> where   department_id=(select department_id from employees
+    ->                        where concat(first_name,' ',last_name)
+    ->                        ='Hermann Baer');
++--------------+
+| fullname     |
++--------------+
+| Hermann Baer |
++--------------+
+1 row in set (0.00 sec)
+
+mysql> select  concat(first_name,' ',last_name) "fullname"
+    -> from  employees
+    -> where   department_id=(select department_id from employees
+    ->                        where concat(first_name,' ',last_name)
+    ->                        ='Neena Kochhar')
+    -> ;
++---------------+
+| fullname      |
++---------------+
+| Steven King   |
+| Neena Kochhar |
+| Lex De Haan   |
++---------------+
+3 rows in set (0.00 sec)
+
+mysql> select  concat(first_name,' ',last_name) "fullname"
+    -> from  employees
+    -> where   department_id=(select department_id from employees
+    ->                        where concat(first_name,' ',last_name)
+    ->                        ='Neena Kochhar')
+    -> and  concat(first_name,' ',last_name)<>'Neena Kochhar';
++-------------+
+| fullname    |
++-------------+
+| Steven King |
+| Lex De Haan |
++-------------+
+2 rows in set (0.00 sec)
+
+mysql> 
+mysql> 
+mysql> #find out employees who are working in the same department as
+mysql> #Valli,Lex
+mysql> 
+mysql> SELECT DEPARTMENT_ID FROM EMPLOYEES
+    -> WHERE FIRST_NAME IN('Valli','Lex');
++---------------+
+| DEPARTMENT_ID |
++---------------+
+|            90 |
+|            60 |
++---------------+
+2 rows in set (0.00 sec)
+
+mysql> select concat(first_name,' ',last_name)
+    -> from   employees
+    -> where  department_id=(SELECT DEPARTMENT_ID FROM EMPLOYEES
+    -> WHERE FIRST_NAME IN('Valli','Lex');
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 4
+mysql> select concat(first_name,' ',last_name)
+    -> from   employees
+    -> where  department_id = (SELECT DEPARTMENT_ID FROM EMPLOYEES
+    ->                         where first_name in('Valli','Lex'));
+ERROR 1242 (21000): Subquery returns more than 1 row
+mysql> 
+mysql> 
+mysql> 
+mysql> select concat(first_name,' ',last_name)
+    -> from   employees
+    -> where  department_id in (SELECT DEPARTMENT_ID FROM EMPLOYEES
+    ->                         where first_name in('Valli','Lex'));
++----------------------------------+
+| concat(first_name,' ',last_name) |
++----------------------------------+
+| Steven King                      |
+| Neena Kochhar                    |
+| Lex De Haan                      |
+| Alexander Hunold                 |
+| Bruce Ernst                      |
+| David Austin                     |
+| Valli Pataballa                  |
+| Diana Lorentz                    |
++----------------------------------+
+8 rows in set (0.00 sec)
+
+mysql> #find out department_name where no employees are working
+mysql> select distinct(deparment_id) from employees;
+ERROR 1054 (42S22): Unknown column 'deparment_id' in 'field list'
+mysql> select distinct(department_id) from employees;
++---------------+
+| department_id |
++---------------+
+|          NULL |
+|            10 |
+|            20 |
+|            30 |
+|            40 |
+|            50 |
+|            60 |
+|            70 |
+|            80 |
+|            90 |
+|           100 |
+|           110 |
++---------------+
+12 rows in set (0.00 sec)
+
+mysql> select department_name
+    -> from   departments
+    -> where  department_id not in(select distinct(department_id) from employees);
+Empty set (0.00 sec)
+
+mysql> select department_name
+    -> from   departments
+    -> where  department_id not in(select distinct(department_id) from employee
+    ->                             where department_id is not null);
+ERROR 1146 (42S02): Table 'hr.employee' doesn't exist
+mysql> select department_name
+    -> from   departments
+    -> where  department_id not in(select distinct(department_id) from employees
+    ->                             where department_id is not null);
++----------------------+
+| department_name      |
++----------------------+
+| Treasury             |
+| Corporate Tax        |
+| Control And Credit   |
+| Shareholder Services |
+| Benefits             |
+| Manufacturing        |
+| Construction         |
+| Contracting          |
+| Operations           |
+| IT Support           |
+| NOC                  |
+| IT Helpdesk          |
+| Government Sales     |
+| Retail Sales         |
+| Recruiting           |
+| Payroll              |
++----------------------+
+16 rows in set (0.00 sec)
+
+mysql> 
+mysql> #FIND OUT DEPARTMENT_NAME WHERE NO SA_REP ARE WORKING
+mysql> select department_name
+    -> from   departments
+    -> where  department_id not in(select department_id from employees
+    ->                             where job_id="SA_REP");
+Empty set (0.00 sec)
+
+mysql> ED
+    -> ^C
+mysql> select department_name
+    -> from   departments
+    -> where  department_id not in(select department_id from employees
+    ->                             where job_id="SA_REP"
+    ->                             AND DEPARTMENT_ID IS NOT NULL);
++----------------------+
+| department_name      |
++----------------------+
+| Administration       |
+| Marketing            |
+| Purchasing           |
+| Human Resources      |
+| Shipping             |
+| IT                   |
+| Public Relations     |
+| Executive            |
+| Finance              |
+| Accounting           |
+| Treasury             |
+| Corporate Tax        |
+| Control And Credit   |
+| Shareholder Services |
+| Benefits             |
+| Manufacturing        |
+| Construction         |
+| Contracting          |
+| Operations           |
+| IT Support           |
+| NOC                  |
+| IT Helpdesk          |
+| Government Sales     |
+| Retail Sales         |
+| Recruiting           |
+| Payroll              |
++----------------------+
+26 rows in set (0.00 sec)
+
+mysql> 
+mysql> #find out employees who joined  on the same hire_date as Laura,Susan
+mysql> select first_name,hire_date
+    -> from   employees
+    -> where  hire_date in(select hire_date from employees
+    ->                     where first_name in('Laura','Susan
+    '> 
+    '> ^C
+mysql> select first_name,hire_date
+    -> from   employees
+    -> where  hire_date in(select hire_date from employees
+    ->                     where first_name in('Laura','Susan'));
++------------+------------+
+| first_name | hire_date  |
++------------+------------+
+| Laura      | 1997-08-20 |
+| Peter      | 1997-08-20 |
+| Susan      | 1994-06-07 |
+| Hermann    | 1994-06-07 |
+| Shelley    | 1994-06-07 |
+| William    | 1994-06-07 |
++------------+------------+
+6 rows in set (0.00 sec)
+
+mysql> select first_name,hire_date
+    -> from   employees
+    -> where  hire_date >(select hire_date from employees
+    ->                     where first_name in('Laura','Susan'));
+ERROR 1242 (21000): Subquery returns more than 1 row
+mysql> select first_name,hire_date
+    -> from   employees
+    -> where  hire_date >any(select hire_date from employees
+    ->                     where first_name in('Laura','Susan'));
++-------------+------------+
+| first_name  | hire_date  |
++-------------+------------+
+| David       | 1997-06-25 |
+| Valli       | 1998-02-05 |
+| Diana       | 1999-02-07 |
+| Nancy       | 1994-08-17 |
+| Daniel      | 1994-08-16 |
+| John        | 1997-09-28 |
+| Ismael      | 1997-09-30 |
+| Jose Manuel | 1998-03-07 |
+| Luis        | 1999-12-07 |
+| Den         | 1994-12-07 |
+| Alexander   | 1995-05-18 |
+| Shelli      | 1997-12-24 |
+| Sigal       | 1997-07-24 |
+| Guy         | 1998-11-15 |
+| Karen       | 1999-08-10 |
+| Matthew     | 1996-07-18 |
+| Adam        | 1997-04-10 |
+| Payam       | 1995-05-01 |
+| Shanta      | 1997-10-10 |
+| Kevin       | 1999-11-16 |
+| Julia       | 1997-07-16 |
+| Irene       | 1998-09-28 |
+| James       | 1999-01-14 |
+| Steven      | 2000-03-08 |
+| Laura       | 1997-08-20 |
+| Mozhe       | 1997-10-30 |
+| James       | 1997-02-16 |
+| TJ          | 1999-04-10 |
+| Jason       | 1996-06-14 |
+| Michael     | 1998-08-26 |
+| Ki          | 1999-12-12 |
+| Hazel       | 2000-02-06 |
+| Renske      | 1995-07-14 |
+| Stephen     | 1997-10-26 |
+| John        | 1998-02-12 |
+| Joshua      | 1998-04-06 |
+| Trenna      | 1995-10-17 |
+| Curtis      | 1997-01-29 |
+| Randall     | 1998-03-15 |
+| Peter       | 1998-07-09 |
+| John        | 1996-10-01 |
+| Karen       | 1997-01-05 |
+| Alberto     | 1997-03-10 |
+| Gerald      | 1999-10-15 |
+| Eleni       | 2000-01-29 |
+| Peter       | 1997-01-30 |
+| David       | 1997-03-24 |
+| Peter       | 1997-08-20 |
+| Christopher | 1998-03-30 |
+| Nanette     | 1998-12-09 |
+| Oliver      | 1999-11-23 |
+| Janette     | 1996-01-30 |
+| Patrick     | 1996-03-04 |
+| Allan       | 1996-08-01 |
+| Lindsey     | 1997-03-10 |
+| Louise      | 1997-12-15 |
+| Sarath      | 1998-11-03 |
+| Clara       | 1997-11-11 |
+| Danielle    | 1999-03-19 |
+| Mattea      | 2000-01-24 |
+| David       | 2000-02-23 |
+| Sundar      | 2000-03-24 |
+| Amit        | 2000-04-21 |
+| Lisa        | 1997-03-11 |
+| Harrison    | 1998-03-23 |
+| Tayler      | 1998-01-24 |
+| William     | 1999-02-23 |
+| Elizabeth   | 1999-03-24 |
+| Sundita     | 2000-04-21 |
+| Ellen       | 1996-05-11 |
+| Alyssa      | 1997-03-19 |
+| Jonathon    | 1998-03-24 |
+| Jack        | 1998-04-23 |
+| Kimberely   | 1999-05-24 |
+| Charles     | 2000-01-04 |
+| Winston     | 1998-01-24 |
+| Jean        | 1998-02-23 |
+| Martha      | 1999-06-21 |
+| Girard      | 2000-02-03 |
+| Nandita     | 1996-01-27 |
+| Alexis      | 1997-02-20 |
+| Julia       | 1998-06-24 |
+| Anthony     | 1999-02-07 |
+| Kelly       | 1997-06-14 |
+| Jennifer    | 1997-08-13 |
+| Timothy     | 1998-07-11 |
+| Randall     | 1999-12-19 |
+| Sarah       | 1996-02-04 |
+| Britney     | 1997-03-03 |
+| Samuel      | 1998-07-01 |
+| Vance       | 1999-03-17 |
+| Alana       | 1998-04-24 |
+| Kevin       | 1998-05-23 |
+| Donald      | 1999-06-21 |
+| Douglas     | 2000-01-13 |
+| Michael     | 1996-02-17 |
+| Pat         | 1997-08-17 |
++-------------+------------+
+97 rows in set (0.00 sec)
+
+mysql> select first_name,hire_date
+    -> from   employees
+    -> where  hire_date >all(select hire_date from employees
+    ->                     where first_name in('Laura','Susan'));
++-------------+------------+
+| first_name  | hire_date  |
++-------------+------------+
+| Valli       | 1998-02-05 |
+| Diana       | 1999-02-07 |
+| John        | 1997-09-28 |
+| Ismael      | 1997-09-30 |
+| Jose Manuel | 1998-03-07 |
+| Luis        | 1999-12-07 |
+| Shelli      | 1997-12-24 |
+| Guy         | 1998-11-15 |
+| Karen       | 1999-08-10 |
+| Shanta      | 1997-10-10 |
+| Kevin       | 1999-11-16 |
+| Irene       | 1998-09-28 |
+| James       | 1999-01-14 |
+| Steven      | 2000-03-08 |
+| Mozhe       | 1997-10-30 |
+| TJ          | 1999-04-10 |
+| Michael     | 1998-08-26 |
+| Ki          | 1999-12-12 |
+| Hazel       | 2000-02-06 |
+| Stephen     | 1997-10-26 |
+| John        | 1998-02-12 |
+| Joshua      | 1998-04-06 |
+| Randall     | 1998-03-15 |
+| Peter       | 1998-07-09 |
+| Gerald      | 1999-10-15 |
+| Eleni       | 2000-01-29 |
+| Christopher | 1998-03-30 |
+| Nanette     | 1998-12-09 |
+| Oliver      | 1999-11-23 |
+| Louise      | 1997-12-15 |
+| Sarath      | 1998-11-03 |
+| Clara       | 1997-11-11 |
+| Danielle    | 1999-03-19 |
+| Mattea      | 2000-01-24 |
+| David       | 2000-02-23 |
+| Sundar      | 2000-03-24 |
+| Amit        | 2000-04-21 |
+| Harrison    | 1998-03-23 |
+| Tayler      | 1998-01-24 |
+| William     | 1999-02-23 |
+| Elizabeth   | 1999-03-24 |
+| Sundita     | 2000-04-21 |
+| Jonathon    | 1998-03-24 |
+| Jack        | 1998-04-23 |
+| Kimberely   | 1999-05-24 |
+| Charles     | 2000-01-04 |
+| Winston     | 1998-01-24 |
+| Jean        | 1998-02-23 |
+| Martha      | 1999-06-21 |
+| Girard      | 2000-02-03 |
+| Julia       | 1998-06-24 |
+| Anthony     | 1999-02-07 |
+| Timothy     | 1998-07-11 |
+| Randall     | 1999-12-19 |
+| Samuel      | 1998-07-01 |
+| Vance       | 1999-03-17 |
+| Alana       | 1998-04-24 |
+| Kevin       | 1998-05-23 |
+| Donald      | 1999-06-21 |
+| Douglas     | 2000-01-13 |
++-------------+------------+
+60 rows in set (0.00 sec)
+
+mysql> 
+mysql> #find out employees who are taking maximum salaries in each job_id
+mysql> select max(salary),job_id
+    -> from   employees
+    -> where job_id is not null
+    -> group by job_id;
++-------------+------------+
+| max(salary) | job_id     |
++-------------+------------+
+|     8300.00 | AC_ACCOUNT |
+|    12000.00 | AC_MGR     |
+|     4400.00 | AD_ASST    |
+|    24000.00 | AD_PRES    |
+|    17000.00 | AD_VP      |
+|     9000.00 | FI_ACCOUNT |
+|    12000.00 | FI_MGR     |
+|     6500.00 | HR_REP     |
+|     9000.00 | IT_PROG    |
+|    13000.00 | MK_MAN     |
+|     6000.00 | MK_REP     |
+|    10000.00 | PR_REP     |
+|     3100.00 | PU_CLERK   |
+|    11000.00 | PU_MAN     |
+|    14000.00 | SA_MAN     |
+|    11500.00 | SA_REP     |
+|     4200.00 | SH_CLERK   |
+|     3600.00 | ST_CLERK   |
+|     8200.00 | ST_MAN     |
++-------------+------------+
+19 rows in set (0.00 sec)
+
+mysql> select concat(first_name,' ',last_name) "fullname",job_id
+    -> from   employees
+    -> where  salary in (select max(salary) from employees
+    ->                   where job_id is not null
+    ->                   group by job_id);
++-------------------+------------+
+| fullname          | job_id     |
++-------------------+------------+
+| Steven King       | AD_PRES    |
+| Neena Kochhar     | AD_VP      |
+| Lex De Haan       | AD_VP      |
+| Alexander Hunold  | IT_PROG    |
+| Bruce Ernst       | IT_PROG    |
+| Diana Lorentz     | IT_PROG    |
+| Nancy Greenberg   | FI_MGR     |
+| Daniel Faviet     | FI_ACCOUNT |
+| John Chen         | FI_ACCOUNT |
+| Den Raphaely      | PU_MAN     |
+| Alexander Khoo    | PU_CLERK   |
+| Adam Fripp        | ST_MAN     |
+| Shanta Vollman    | ST_MAN     |
+| Renske Ladwig     | ST_CLERK   |
+| Curtis Davies     | ST_CLERK   |
+| John Russell      | SA_MAN     |
+| Alberto Errazuriz | SA_MAN     |
+| Gerald Cambrault  | SA_MAN     |
+| Peter Tucker      | SA_REP     |
+| Peter Hall        | SA_REP     |
+| Janette King      | SA_REP     |
+| Allan McEwen      | SA_REP     |
+| Lisa Ozer         | SA_REP     |
+| Harrison Bloom    | SA_REP     |
+| Ellen Abel        | SA_REP     |
+| Jean Fleaur       | SH_CLERK   |
+| Nandita Sarchand  | SH_CLERK   |
+| Jennifer Dilly    | SH_CLERK   |
+| Alana Walsh       | SH_CLERK   |
+| Jennifer Whalen   | AD_ASST    |
+| Michael Hartstein | MK_MAN     |
+| Pat Fay           | MK_REP     |
+| Susan Mavris      | HR_REP     |
+| Hermann Baer      | PR_REP     |
+| Shelley Higgins   | AC_MGR     |
+| William Gietz     | AC_ACCOUNT |
++-------------------+------------+
+36 rows in set (0.00 sec)
+
+mysql> 
+mysql> select concat(first_name,' ',last_name) "fullname",job_id,salary
+    -> from   employees
+    -> where  salary in (select max(salary) from employees
+    ->                   where job_id is not null
+    ->                   group by job_id);
++-------------------+------------+----------+
+| fullname          | job_id     | salary   |
++-------------------+------------+----------+
+| Steven King       | AD_PRES    | 24000.00 |
+| Neena Kochhar     | AD_VP      | 17000.00 |
+| Lex De Haan       | AD_VP      | 17000.00 |
+| Alexander Hunold  | IT_PROG    |  9000.00 |
+| Bruce Ernst       | IT_PROG    |  6000.00 |
+| Diana Lorentz     | IT_PROG    |  4200.00 |
+| Nancy Greenberg   | FI_MGR     | 12000.00 |
+| Daniel Faviet     | FI_ACCOUNT |  9000.00 |
+| John Chen         | FI_ACCOUNT |  8200.00 |
+| Den Raphaely      | PU_MAN     | 11000.00 |
+| Alexander Khoo    | PU_CLERK   |  3100.00 |
+| Adam Fripp        | ST_MAN     |  8200.00 |
+| Shanta Vollman    | ST_MAN     |  6500.00 |
+| Renske Ladwig     | ST_CLERK   |  3600.00 |
+| Curtis Davies     | ST_CLERK   |  3100.00 |
+| John Russell      | SA_MAN     | 14000.00 |
+| Alberto Errazuriz | SA_MAN     | 12000.00 |
+| Gerald Cambrault  | SA_MAN     | 11000.00 |
+| Peter Tucker      | SA_REP     | 10000.00 |
+| Peter Hall        | SA_REP     |  9000.00 |
+| Janette King      | SA_REP     | 10000.00 |
+| Allan McEwen      | SA_REP     |  9000.00 |
+| Lisa Ozer         | SA_REP     | 11500.00 |
+| Harrison Bloom    | SA_REP     | 10000.00 |
+| Ellen Abel        | SA_REP     | 11000.00 |
+| Jean Fleaur       | SH_CLERK   |  3100.00 |
+| Nandita Sarchand  | SH_CLERK   |  4200.00 |
+| Jennifer Dilly    | SH_CLERK   |  3600.00 |
+| Alana Walsh       | SH_CLERK   |  3100.00 |
+| Jennifer Whalen   | AD_ASST    |  4400.00 |
+| Michael Hartstein | MK_MAN     | 13000.00 |
+| Pat Fay           | MK_REP     |  6000.00 |
+| Susan Mavris      | HR_REP     |  6500.00 |
+| Hermann Baer      | PR_REP     | 10000.00 |
+| Shelley Higgins   | AC_MGR     | 12000.00 |
+| William Gietz     | AC_ACCOUNT |  8300.00 |
++-------------------+------------+----------+
+36 rows in set (0.00 sec)
+
+mysql> select max(salary),job_id
+    -> from   employees
+    -> where job_id is not null
+    -> group by job_id;
++-------------+------------+
+| max(salary) | job_id     |
++-------------+------------+
+|     8300.00 | AC_ACCOUNT |
+|    12000.00 | AC_MGR     |
+|     4400.00 | AD_ASST    |
+|    24000.00 | AD_PRES    |
+|    17000.00 | AD_VP      |
+|     9000.00 | FI_ACCOUNT |
+|    12000.00 | FI_MGR     |
+|     6500.00 | HR_REP     |
+|     9000.00 | IT_PROG    |
+|    13000.00 | MK_MAN     |
+|     6000.00 | MK_REP     |
+|    10000.00 | PR_REP     |
+|     3100.00 | PU_CLERK   |
+|    11000.00 | PU_MAN     |
+|    14000.00 | SA_MAN     |
+|    11500.00 | SA_REP     |
+|     4200.00 | SH_CLERK   |
+|     3600.00 | ST_CLERK   |
+|     8200.00 | ST_MAN     |
++-------------+------------+
+19 rows in set (0.00 sec)
+
+mysql> select max(salary),job_id
+    -> from   employees
+    -> where job_id is not null
+    -> group by job_id
+    -> order by 1;
++-------------+------------+
+| max(salary) | job_id     |
++-------------+------------+
+|     3100.00 | PU_CLERK   |
+|     3600.00 | ST_CLERK   |
+|     4200.00 | SH_CLERK   |
+|     4400.00 | AD_ASST    |
+|     6000.00 | MK_REP     |
+|     6500.00 | HR_REP     |
+|     8200.00 | ST_MAN     |
+|     8300.00 | AC_ACCOUNT |
+|     9000.00 | FI_ACCOUNT |
+|     9000.00 | IT_PROG    |
+|    10000.00 | PR_REP     |
+|    11000.00 | PU_MAN     |
+|    11500.00 | SA_REP     |
+|    12000.00 | AC_MGR     |
+|    12000.00 | FI_MGR     |
+|    13000.00 | MK_MAN     |
+|    14000.00 | SA_MAN     |
+|    17000.00 | AD_VP      |
+|    24000.00 | AD_PRES    |
++-------------+------------+
+19 rows in set (0.00 sec)
+
+mysql> 
+mysql> select concat(first_name,' ',last_name) "fullname",job_id,salary
+    -> from   employees
+    -> where  (salary,job_id) in (select max(salary),job_id from employees
+    ->                             where job_id is not null
+    ->                              group by job_id);
++-------------------+------------+----------+
+| fullname          | job_id     | salary   |
++-------------------+------------+----------+
+| Steven King       | AD_PRES    | 24000.00 |
+| Neena Kochhar     | AD_VP      | 17000.00 |
+| Lex De Haan       | AD_VP      | 17000.00 |
+| Alexander Hunold  | IT_PROG    |  9000.00 |
+| Nancy Greenberg   | FI_MGR     | 12000.00 |
+| Daniel Faviet     | FI_ACCOUNT |  9000.00 |
+| Den Raphaely      | PU_MAN     | 11000.00 |
+| Alexander Khoo    | PU_CLERK   |  3100.00 |
+| Adam Fripp        | ST_MAN     |  8200.00 |
+| Renske Ladwig     | ST_CLERK   |  3600.00 |
+| John Russell      | SA_MAN     | 14000.00 |
+| Lisa Ozer         | SA_REP     | 11500.00 |
+| Nandita Sarchand  | SH_CLERK   |  4200.00 |
+| Jennifer Whalen   | AD_ASST    |  4400.00 |
+| Michael Hartstein | MK_MAN     | 13000.00 |
+| Pat Fay           | MK_REP     |  6000.00 |
+| Susan Mavris      | HR_REP     |  6500.00 |
+| Hermann Baer      | PR_REP     | 10000.00 |
+| Shelley Higgins   | AC_MGR     | 12000.00 |
+| William Gietz     | AC_ACCOUNT |  8300.00 |
++-------------------+------------+----------+
+20 rows in set (0.00 sec)
+
+mysql> 
+mysql> select count(job_id),job_id
+    -> from   employees
+    -> group by job_id;
++---------------+------------+
+| count(job_id) | job_id     |
++---------------+------------+
+|             1 | AC_ACCOUNT |
+|             1 | AC_MGR     |
+|             1 | AD_ASST    |
+|             1 | AD_PRES    |
+|             2 | AD_VP      |
+|             5 | FI_ACCOUNT |
+|             1 | FI_MGR     |
+|             1 | HR_REP     |
+|             5 | IT_PROG    |
+|             1 | MK_MAN     |
+|             1 | MK_REP     |
+|             1 | PR_REP     |
+|             5 | PU_CLERK   |
+|             1 | PU_MAN     |
+|             5 | SA_MAN     |
+|            30 | SA_REP     |
+|            20 | SH_CLERK   |
+|            20 | ST_CLERK   |
+|             5 | ST_MAN     |
++---------------+------------+
+19 rows in set (0.00 sec)
+
+mysql> select count(job_id),job_id
+    -> from   employees
+    -> group by job_id
+    -> order by 2;
++---------------+------------+
+| count(job_id) | job_id     |
++---------------+------------+
+|             1 | AC_ACCOUNT |
+|             1 | AC_MGR     |
+|             1 | AD_ASST    |
+|             1 | AD_PRES    |
+|             2 | AD_VP      |
+|             5 | FI_ACCOUNT |
+|             1 | FI_MGR     |
+|             1 | HR_REP     |
+|             5 | IT_PROG    |
+|             1 | MK_MAN     |
+|             1 | MK_REP     |
+|             1 | PR_REP     |
+|             5 | PU_CLERK   |
+|             1 | PU_MAN     |
+|             5 | SA_MAN     |
+|            30 | SA_REP     |
+|            20 | SH_CLERK   |
+|            20 | ST_CLERK   |
+|             5 | ST_MAN     |
++---------------+------------+
+19 rows in set (0.00 sec)
+
+mysql> select count(job_id),job_id
+    -> group by job_id
+    -> order by 1;
+ERROR 1054 (42S22): Unknown column 'job_id' in 'field list'
+mysql> select count(job_id),job_id
+    -> from   employees
+    -> group by job_id
+    -> order by 1;
++---------------+------------+
+| count(job_id) | job_id     |
++---------------+------------+
+|             1 | AC_ACCOUNT |
+|             1 | AC_MGR     |
+|             1 | AD_ASST    |
+|             1 | AD_PRES    |
+|             1 | FI_MGR     |
+|             1 | HR_REP     |
+|             1 | MK_MAN     |
+|             1 | MK_REP     |
+|             1 | PR_REP     |
+|             1 | PU_MAN     |
+|             2 | AD_VP      |
+|             5 | FI_ACCOUNT |
+|             5 | IT_PROG    |
+|             5 | PU_CLERK   |
+|             5 | SA_MAN     |
+|             5 | ST_MAN     |
+|            20 | SH_CLERK   |
+|            20 | ST_CLERK   |
+|            30 | SA_REP     |
++---------------+------------+
+19 rows in set (0.00 sec)
+
+mysql> 
+mysql> select count(job_id),job_id
+    -> from   employees
+    -> group by job_id
+    -> having count(Job_id) in (select max(a.cnt) from
+    ->                           (select count(job_id)cnt from
+    ->                            employees group by job_id)a);
++---------------+--------+
+| count(job_id) | job_id |
++---------------+--------+
+|            30 | SA_REP |
++---------------+--------+
+1 row in set (0.00 sec)
+
+mysql> select concat(first_name,' ',last_name) "fullname",job_id
+    -> from   employees
+    -> where  job_id  in(select job_id from employees
+    ->                   group by job_id
+    ->                   having count(Job_id) in (select max(a.cnt) from
+    ->                                           (select count(job_id)cnt from
+    ->                                            employees group by job_id)a));
++-------------------+--------+
+| fullname          | job_id |
++-------------------+--------+
+| Peter Tucker      | SA_REP |
+| David Bernstein   | SA_REP |
+| Peter Hall        | SA_REP |
+| Christopher Olsen | SA_REP |
+| Nanette Cambrault | SA_REP |
+| Oliver Tuvault    | SA_REP |
+| Janette King      | SA_REP |
+| Patrick Sully     | SA_REP |
+| Allan McEwen      | SA_REP |
+| Lindsey Smith     | SA_REP |
+| Louise Doran      | SA_REP |
+| Sarath Sewall     | SA_REP |
+| Clara Vishney     | SA_REP |
+| Danielle Greene   | SA_REP |
+| Mattea Marvins    | SA_REP |
+| David Lee         | SA_REP |
+| Sundar Ande       | SA_REP |
+| Amit Banda        | SA_REP |
+| Lisa Ozer         | SA_REP |
+| Harrison Bloom    | SA_REP |
+| Tayler Fox        | SA_REP |
+| William Smith     | SA_REP |
+| Elizabeth Bates   | SA_REP |
+| Sundita Kumar     | SA_REP |
+| Ellen Abel        | SA_REP |
+| Alyssa Hutton     | SA_REP |
+| Jonathon Taylor   | SA_REP |
+| Jack Livingston   | SA_REP |
+| Kimberely Grant   | SA_REP |
+| Charles Johnson   | SA_REP |
++-------------------+--------+
+30 rows in set (0.00 sec)
+
+mysql> 
+mysql> select first_name,salary,department_id
+    -> from   employees e
+    -> where  department_id>(select avg(sal)
+    -> ^C
+mysql> select first_name,salary,department_id
+    -> from   employees e
+    -> where  department_id>(select avg(salary)
+    ->                       from  employees
+    ->            where department_id=e.department_id)
+    -> order by 3;
+Empty set (0.01 sec)
+
+mysql> select first_name,salary,department_id
+    -> from   employees e
+    -> where  salary>(select avg(salary)
+    ->                from  employees
+    ->            where department_id=e.department_id);
++------------+----------+---------------+
+| first_name | salary   | department_id |
++------------+----------+---------------+
+| Steven     | 24000.00 |            90 |
+| Alexander  |  9000.00 |            60 |
+| Bruce      |  6000.00 |            60 |
+| Nancy      | 12000.00 |           100 |
+| Daniel     |  9000.00 |           100 |
+| Den        | 11000.00 |            30 |
+| Matthew    |  8000.00 |            50 |
+| Adam       |  8200.00 |            50 |
+| Payam      |  7900.00 |            50 |
+| Shanta     |  6500.00 |            50 |
+| Kevin      |  5800.00 |            50 |
+| Renske     |  3600.00 |            50 |
+| Trenna     |  3500.00 |            50 |
+| John       | 14000.00 |            80 |
+| Karen      | 13500.00 |            80 |
+| Alberto    | 12000.00 |            80 |
+| Gerald     | 11000.00 |            80 |
+| Eleni      | 10500.00 |            80 |
+| Peter      | 10000.00 |            80 |
+| David      |  9500.00 |            80 |
+| Peter      |  9000.00 |            80 |
+| Janette    | 10000.00 |            80 |
+| Patrick    |  9500.00 |            80 |
+| Allan      |  9000.00 |            80 |
+| Clara      | 10500.00 |            80 |
+| Danielle   |  9500.00 |            80 |
+| Lisa       | 11500.00 |            80 |
+| Harrison   | 10000.00 |            80 |
+| Tayler     |  9600.00 |            80 |
+| Ellen      | 11000.00 |            80 |
+| Nandita    |  4200.00 |            50 |
+| Alexis     |  4100.00 |            50 |
+| Kelly      |  3800.00 |            50 |
+| Jennifer   |  3600.00 |            50 |
+| Sarah      |  4000.00 |            50 |
+| Britney    |  3900.00 |            50 |
+| Michael    | 13000.00 |            20 |
+| Shelley    | 12000.00 |           110 |
++------------+----------+---------------+
+38 rows in set (0.01 sec)
+
+mysql> 
+mysql> select first_name,salary,department_id
+    -> from   employees e
+    -> where  salary>(select avg(salary)
+    ->                from  employees
+    ->            where department_id=e.department_id)
+    -> order by 3;
++------------+----------+---------------+
+| first_name | salary   | department_id |
++------------+----------+---------------+
+| Michael    | 13000.00 |            20 |
+| Den        | 11000.00 |            30 |
+| Renske     |  3600.00 |            50 |
+| Trenna     |  3500.00 |            50 |
+| Matthew    |  8000.00 |            50 |
+| Adam       |  8200.00 |            50 |
+| Payam      |  7900.00 |            50 |
+| Shanta     |  6500.00 |            50 |
+| Kevin      |  5800.00 |            50 |
+| Nandita    |  4200.00 |            50 |
+| Alexis     |  4100.00 |            50 |
+| Kelly      |  3800.00 |            50 |
+| Jennifer   |  3600.00 |            50 |
+| Sarah      |  4000.00 |            50 |
+| Britney    |  3900.00 |            50 |
+| Alexander  |  9000.00 |            60 |
+| Bruce      |  6000.00 |            60 |
+| David      |  9500.00 |            80 |
+| Peter      | 10000.00 |            80 |
+| Patrick    |  9500.00 |            80 |
+| Allan      |  9000.00 |            80 |
+| Clara      | 10500.00 |            80 |
+| Danielle   |  9500.00 |            80 |
+| Lisa       | 11500.00 |            80 |
+| Harrison   | 10000.00 |            80 |
+| Tayler     |  9600.00 |            80 |
+| Ellen      | 11000.00 |            80 |
+| Janette    | 10000.00 |            80 |
+| Peter      |  9000.00 |            80 |
+| John       | 14000.00 |            80 |
+| Karen      | 13500.00 |            80 |
+| Alberto    | 12000.00 |            80 |
+| Gerald     | 11000.00 |            80 |
+| Eleni      | 10500.00 |            80 |
+| Steven     | 24000.00 |            90 |
+| Nancy      | 12000.00 |           100 |
+| Daniel     |  9000.00 |           100 |
+| Shelley    | 12000.00 |           110 |
++------------+----------+---------------+
+38 rows in set (0.01 sec)
+
+mysql> 
+mysql> select e.first_name,e.salary,e.department_id,a.avsal
+    -> from   employees e inner join (select department_id,avg(salary) avsal
+    ->                                from  employees
+    ->                                where department_id is not null
+    ->                                group by department_id) a
+    -> on  e.department_id=a.department_id
+    -> and e.salary>a.avsal
+    -> order by 3;
++------------+----------+---------------+--------------+
+| first_name | salary   | department_id | avsal        |
++------------+----------+---------------+--------------+
+| Michael    | 13000.00 |            20 |  9500.000000 |
+| Den        | 11000.00 |            30 |  4150.000000 |
+| Matthew    |  8000.00 |            50 |  3475.555556 |
+| Adam       |  8200.00 |            50 |  3475.555556 |
+| Payam      |  7900.00 |            50 |  3475.555556 |
+| Shanta     |  6500.00 |            50 |  3475.555556 |
+| Kevin      |  5800.00 |            50 |  3475.555556 |
+| Renske     |  3600.00 |            50 |  3475.555556 |
+| Trenna     |  3500.00 |            50 |  3475.555556 |
+| Nandita    |  4200.00 |            50 |  3475.555556 |
+| Alexis     |  4100.00 |            50 |  3475.555556 |
+| Kelly      |  3800.00 |            50 |  3475.555556 |
+| Jennifer   |  3600.00 |            50 |  3475.555556 |
+| Sarah      |  4000.00 |            50 |  3475.555556 |
+| Britney    |  3900.00 |            50 |  3475.555556 |
+| Alexander  |  9000.00 |            60 |  5760.000000 |
+| Bruce      |  6000.00 |            60 |  5760.000000 |
+| John       | 14000.00 |            80 |  8955.882353 |
+| Karen      | 13500.00 |            80 |  8955.882353 |
+| Alberto    | 12000.00 |            80 |  8955.882353 |
+| Gerald     | 11000.00 |            80 |  8955.882353 |
+| Eleni      | 10500.00 |            80 |  8955.882353 |
+| Peter      | 10000.00 |            80 |  8955.882353 |
+| David      |  9500.00 |            80 |  8955.882353 |
+| Peter      |  9000.00 |            80 |  8955.882353 |
+| Janette    | 10000.00 |            80 |  8955.882353 |
+| Patrick    |  9500.00 |            80 |  8955.882353 |
+| Allan      |  9000.00 |            80 |  8955.882353 |
+| Clara      | 10500.00 |            80 |  8955.882353 |
+| Danielle   |  9500.00 |            80 |  8955.882353 |
+| Lisa       | 11500.00 |            80 |  8955.882353 |
+| Harrison   | 10000.00 |            80 |  8955.882353 |
+| Tayler     |  9600.00 |            80 |  8955.882353 |
+| Ellen      | 11000.00 |            80 |  8955.882353 |
+| Steven     | 24000.00 |            90 | 19333.333333 |
+| Nancy      | 12000.00 |           100 |  8600.000000 |
+| Daniel     |  9000.00 |           100 |  8600.000000 |
+| Shelley    | 12000.00 |           110 | 10150.000000 |
++------------+----------+---------------+--------------+
+38 rows in set (0.00 sec)
+
+mysql> 
+mysql> select group_concat(first_name),department_id
+    -> from  employees
+    -> where  department_id=60
+    -> group by department_id;
++-----------------------------------+---------------+
+| group_concat(first_name)          | department_id |
++-----------------------------------+---------------+
+| Alexander,Bruce,David,Valli,Diana |            60 |
++-----------------------------------+---------------+
+1 row in set (0.00 sec)
+
+mysql> notee;

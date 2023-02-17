@@ -1,0 +1,155 @@
+
+
+
+  A ={1,2,3,4}
+  B ={ 4,5}
+
+
+
+  AUB={1,2,3,4,5}
+  AINTERSECTB={4}
+
+  SET OPERATORS
+  ----------------
+   * TO SELECT DATA FROM SIMILAR SELECT STATEMENTS
+
+  RULES
+  -------
+   1. NUMBER OF COLUMNS SHOULD BE SAME IN ALL SELECT STATEMENTS
+
+
+ TYPES
+ ---------
+  UNION 
+  UNION ALL
+  INTERSECTION(8.0.31 VERSION)
+
+
+
+  SELECT JOB FROM EMP WHERE DEPTNO IN(10,20);
+
+
+ find out total salary for each job
+ as well as total salary
+
+
+ORDER BY 
+------------
+  * IT SHOULD BE USED AFTER ALL SELECT
+    STATEMENTS
+
+  * BUT IT WORKS ONLY FOR 1ST SELECT ST.
+
+ JOINS
+ ------------
+   * TO SELECT DATA FROM MULTIPLE TABLES
+
+
+  2 TYPES OF SYNTAXES
+ ======================================================================
+ ORACLE PROPRIETARY SYNTAX                       SQL-99
+----------------------------------------------------------------------
+  EQUI                                           INNER JOIN
+  OUTER                                          OUTER(L,R,F)
+  NON EQUI                                       JOIN(DIFFERENT TABLES)
+  CARTESIAN                                      CROSS
+  SELF                                           JOIN(SAME TABLES)
+                                                 NATURAL
+                                                 USING
+
+RULES(SQL-99)
+------------------
+ 1. COLUMN NAMES SHOULD HAVE THE FORMAT
+       E.ENAME    OR EMP.ENAME
+       D.DNAME    OR DEPT.DNAME
+       (E,D  ARE CALLED TABLE ALIASES)
+
+  2. TYPE OF JOIN TO BE SPECIFIED(INNER,OUTER,NATURAL,CROSS..)
+
+
+  FIND JOB_ID WHICH GOT FILLED IN 2ND HALF OF ANY YEAR
+  AGAIN FILLED IN THE 1ST HALF OF NEXT YEAR
+
+
+
+
+
+
+
+
+
+
+  3. JOIN CONDITION USES ON CLAUSE
+
+  4. ADDITIONAL CONDITIONS  WILL BE DONE USING
+             AND   OPERATOR
+             WHERE CLAUSE
+
+
+  INNER JOIN
+  --------------
+   JOIN CONDITION USES = OPERATOR
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

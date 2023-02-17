@@ -1,0 +1,236 @@
+SQL Basics:
+--------------
+
+* DR . E . F Codd is father of RDBMS. (Relational algebra and relational calculus). He has framed 12 rules, 
+which is popularly known as Codd rules. 
+
+Rule 1 ) Information Rule: 
+Database must manage it's data storage only using relational capabilities.
+
+Rule 3) Systematic treatment of null values: To extract null records use IS keyword. null represent's unknown value.
+
+* null != 0
+* null != nothing
+* null != null
+---------------
+* null is null
+
+Example : 
+----------
+
+select ename from emp where com is null;
+select ename from emp where com is not null;
+
+Rule 8) Physical data independence
+
+Rule 9) logical data independence
+
+Rule 10) Integrity data independence.
+
+*) The operators are used to manipulate the relations. And it is classified to 2 types, 
+
+Set oriented - UNION, INTERSECT, MINUS, PRODUCT
+
+Relational Oriented - PROJECTION, RESTRICTION, JOIN.
+
+PROJECTION - SELECTING SPECIFIC COLUMNS USING SELECT CLAUSE. 
+
+RESTRICTION - SPECIFIC ROWS ARE SELECTED USING WHERE CLAUSE.
+
+RDBMS -  DATABASE VENDORS - ORACLE, SYBASE, SQL SERVER, POSTGRE, MYSQL, MARIADB.
+
+SQL - DDL, DML, DQL, DCL, TCL.
+
+DDL - DATA DEFINITION LANGUAGE - CREATE, ALTER, DROP, TRUNCATE
+DML - DATA MANIPULATION LANGUAGE - INSERT, UPDATE, DELETE
+DQL - DATA QUERY LANGUAGE - SELECT
+DCL - DATA CONTROL LANGUAGE - GRANT, REVOKE
+TCL - TRANSACTIONAL CONTROL LANGUAGE - COMMIT, ROLLBACK
+
+--- BOTH THE COMMAND QUERIES AND DATA ARE NOT CASE SENSITIVE.
+
+--- OPERATORS USED IN RDBMS : COMPARISION (= , <= , >= , <>, !=), LOGICAL (AND, OR, NOT ), SPECIAL(IN, NOT, BETWEEN), PATTERN MATCHING(LIKE, NOT LIKE), NULL(IS NULL, IS NOT NULL).
+
+PATTERN MATCHING : "% CHARACTER" - BEGINNING , "CHARACTER %" - ENDING , "% CHARACTER % " - CONTAINING. _ REPRESENTS THE SINGLE CHARACTER.
+
+eg: 
+
+select * from emp where ename = "smith";
+select * from emp where ename like "smith"; both are same.
+
+
+SELECT * FROM EMP WHERE JOB <> "CLERK";
+SELECT * FROM EMP WHERE NOT JOB = "CLERK";
+SELECT * FROM EMP WHERE JOB not in ( "CLERK"); ALL are same.
+
+
+cmds:
+-----
+
+* SHOW DATABASES;
+
+* SHOW TABLES;
+
+* SHOW COLUMNS FROM <TABLENAME>; OR DESC <TABLENAME>
+
+* DESC <COLUMNNAME>
+
+QUERIES:
+1)
+SELECT * FROM EMP WHERE SAL > 1295;
+2)
+SELECT * FROM EMP WHERE SAL <= 1250;
+3)
+SELECT * FROM EMP WHERE JOB <> "CLERK";
+SELECT * FROM EMP WHERE JOB not in ( "CLERK");
+SELECT * FROM EMP WHERE NOT JOB = "CLERK";
+4)
+select * from emp where deptno = 30 or deptno = 10;
+select * from emp where deptno in (10,30);
+5)
+select ename, deptno, job from emp where deptno = 40 or job = "clerk";
+6)
+select * from emp where ename = "smith";
+select * from emp where ename like "smith";
+
+7) NOT OPERATOR
+SELECT * FROM EMP WHERE SAL > 3000; 
+SELECT * FROM EMP WHERE NOT SAL < 3000; 
+
+8) BETWEEN AND
+select * from emp where sal >= 950 and sal <= 2975;
+select * from emp where sal between 950 and 2975;
+
+9) BETWEEN OPERATOR IN STRING USING ASCII:
+SELECT ENAME FROM EMP WHERE ENAME BETWEEN "JAMES" AND "TURNER";
+-- J AND T WILL BE CONSIDERED AS ASCII VALUES.
+
+10) LIKE OPERATIONS:
+SELECT ENAME FROM EMP WHERE ENAME LIKE "J%";
+SELECT ENAME FROM EMP WHERE ENAME LIKE "%D";
+SELECT ENAME FROM EMP WHERE ENAME LIKE "%T%";
+SELECT ENAME FROM EMP WHERE ENAME LIKE "__R%"; 3RD CHARACTER IS R. 
+SELECT ENAME FROM EMP WHERE ENAME LIKE "____";  EXACTLY 4 CHARACTERS ENAME.
+
+11) LIKE OPERATIONS: (%, _ EXTRACTION)
+CREATE TABLE EMP1 AS SELECT * FROM EMP; COPYING A TABLE.
+UPDATE EMP1 SET JOB = "sales_rep" WHERE JOB  = "salesman";
+UPDATE EMP1 SET JOB = "HR_CLERK" WHERE JOB = "CLERK";
+SELECT JOB FROM EMP1 WHERE JOB LIKE "%\_%"; USING \ TO EXTRACT % OR _ INSIDE A STRING.
+UPDATE EMP1 SET JOB = "HR%CLERK" WHERE JOB = "HR_CLERK";
+SELECT JOB FROM EMP1 WHERE JOB LIKE "%\%%";
+
+12) DATE OPERATIONS:
+SELECT * FROM EMP WHERE YEAR(HIREDATE) = 1981;
+
+
+Notes:
+-------
+
+DATABASE ARCHITECTURE: (3 LEVEL ARCHITECTURE)
+---------------------- 
+
+LEVEL 0 : DATABASE
+LEVEL 1 : INTERNAL LEVEL (STORAGE VIEW)  - DATA ABSTRACTION
+LEVEL 2 : CONCEPTUAL LEVEL (COMMUNITY USER VIEW) 
+LEVEL 3 : EXTERNAL LEVEL (INDIVIDUAL USER VIEW)
+
+external - user level
+  conceptual - global level
+    internal - storage level
+
+logical e,c
+physical c,i
+
+
+DIFFERENCE BETWEEN FILE SYSTEM AND DATABASE IS DATA INDEPENDENCY. AND THE DATA INDEPENEDENCE IS PROVIDED BY 3 LEVEL 
+ARCHITECTURE.
+
+DATA INDEPENDENCE: LEVEL 2 DATA ABSTRACTION SHOULD NOT AFFECT THE HIGHER LEVEL (LEVEL 3 ) IS KNOWN AS LOGICAL DATA 
+INDEPENDENCE. AND SAME FOR LEVEL 1 AND LEVEL 2 IS PHYSICAL DATA INDEPENDENCE.
+
+DML:
+====
+
+CREATE TABLE `company_new`(
+`compid` SMALLINT NOT NULL,
+`compname` VARCHAR(20));
+
+ALTER TABLE `company_new` ADD CONSTRAINT `PK_compid` PRIMARY KEY(`compid`);
+
+OPERATIONS:
+===========
+
+INSERT FUNCTION:
+================
+
+1) NORMAL INSERTION:
+---------------------
+INSERT INTO `company_new` VALUES(1,'WIPRO');
+
+2) CHANGE ORDER:
+--------------------
+INSERT INTO `company_new` (`compname`,`compid`) VALUES ("TCS",2);
+
+3) MULTIPLE ROWS:
+------------------
+INSERT INTO `company_new` VALUES (3,"ORACLE"),(4,"INFOSYS"),(5,"SG"),(6,"CTS");
+
+4) SET VARIABLES:
+---------------
+
+SET @V1 = 7, @V2 = "EMC2";
+INSERT INTO `company_new` VALUES(@V1,@V2);
+
+5) INSERTING NULL (OMIT THE NON PRIMARY KEY COLUMN OR EXPLICITLY USE NULL WITHOUT QUOTES):
+--------------------------------------------------------------------------
+
+METHOD1 : INSERT INTO `company_new` VALUES(8,NULL); (Explicitly null is used)
+METHOD2 : INSERT INTO `company_new`(`compid`) VALUES(9);  OMIT THE COLUMN.
+
+6) COPYING THE ROWS FROM OTHER TABLE: (The datatypes must be compatible)
+--------------------------------------
+
+SYNTAX : INSERT INTO <TABLE> SELECT <COL1>, <COL2> FROM <OTHER TABLE>;
+
+INSERT INTO `company_new` SELECT `deptno`, `dname` FROM `dept`;
+
+7) DEFAULT INSERTION:
+----------------------
+
+EXAMPLE:
+--------
+
+TABLE CREATION:
+------------------
+CREATE TABLE `default_tab`(`c1` INT,
+`c2` TIMESTAMP DEFAULT NOW());
+
+ALTER TABLE `default_tab` ADD CONSTRAINT `PK_c1` PRIMARY KEY(`c1`);
+
+RECORDS INSERTIONS:
+-------------------- 
+INSERT INTO `default_tab`(`c1`) VALUES(101);
+INSERT INTO `default_tab` VALUES(201, DEFAULT); EXPLICITLY DEFAULT INSERTION 
+                                                -----------------------------
+DISPLAY RECORDS:
+-------------------
+SELECT * FROM `default_tab`;
+
+UPDATE OPERATIONS: (MODIFY THE EXISTING ROWS):
+----------------------------------------------
+
+SYNTAX :
+---------- 
+UPDATE <TABLENAME> 
+SET <COL1> = VALUE1, <COL2> = VALUE2 
+RESTRICTION(WHERE CLAUSE);                
+
+EXAMPLE:
+----------
+UPDATE `company_new` 
+SET `compname` = "EY"
+WHERE `compid` = 7;
+
+
+

@@ -1,0 +1,923 @@
+mysql> show tables;
++---------------------+
+| Tables_in_newtestdb |
++---------------------+
+| company_new         |
+| default_tab         |
+| dept                |
+| emp                 |
+| emp1                |
+| salgrade            |
+| stud_address_view   |
+| stud_age_view       |
+| student             |
+| student_phone       |
++---------------------+
+10 rows in set (0.00 sec)
+
+mysql> select job from emp where deptno  in(10,20);
++-----------+
+| job       |
++-----------+
+| CLERK     |
+| MANAGER   |
+| MANAGER   |
+| ANALYST   |
+| PRESIDENT |
+| CLERK     |
+| ANALYST   |
+| CLERK     |
++-----------+
+8 rows in set (0.01 sec)
+
+mysql> select distinct(job) from emp where deptno  in(10,20);
++-----------+
+| job       |
++-----------+
+| MANAGER   |
+| PRESIDENT |
+| CLERK     |
+| ANALYST   |
++-----------+
+4 rows in set (0.00 sec)
+
+mysql> select job from emp where deptno=10
+    -> union
+    -> select job from emp where deptno=20;
++-----------+
+| job       |
++-----------+
+| MANAGER   |
+| PRESIDENT |
+| CLERK     |
+| ANALYST   |
++-----------+
+4 rows in set (0.00 sec)
+
+mysql> select job from emp where deptno=10
+    -> union all
+    -> select job from emp where deptno=20;
++-----------+
+| job       |
++-----------+
+| MANAGER   |
+| PRESIDENT |
+| CLERK     |
+| CLERK     |
+| MANAGER   |
+| ANALYST   |
+| CLERK     |
+| ANALYST   |
++-----------+
+8 rows in set (0.00 sec)
+
+mysql> 
+mysql> select job from emp where deptno=10
+    -> intersect
+    -> select job from emp where deptno=20;
++---------+
+| job     |
++---------+
+| MANAGER |
+| CLERK   |
++---------+
+2 rows in set (0.00 sec)
+
+mysql> select job,deptno from emp where deptno=10
+    -> intersect
+    -> select job from emp where deptno=20;
+ERROR 1222 (21000): The used SELECT statements have a different number of columns
+mysql> 
+mysql> 
+mysql> 
+mysql> select job from emp where deptno=10
+    -> union
+    -> select job from emp where deptno=20
+    -> union
+    -> select job from emp where deptno=30;
++-----------+
+| job       |
++-----------+
+| MANAGER   |
+| PRESIDENT |
+| CLERK     |
+| ANALYST   |
+| SALESMAN  |
++-----------+
+5 rows in set (0.00 sec)
+
+mysql> select dayname(hiredate) from emp where deptno=10
+    -> union
+    -> select dayname(hiredate) from emp where deptno=20;
++-------------------+
+| dayname(hiredate) |
++-------------------+
+| Tuesday           |
+| Saturday          |
+| Wednesday         |
+| Thursday          |
+| Monday            |
++-------------------+
+5 rows in set (0.00 sec)
+
+mysql> select ename from emp
+    -> union
+    -> select dname from dept;
++------------+
+| ename      |
++------------+
+| SMITH      |
+| ALLEN      |
+| WARD       |
+| JONES      |
+| MARTIN     |
+| BLAKE      |
+| CLARK      |
+| SCOTT      |
+| KING       |
+| TURNER     |
+| ADAMS      |
+| JAMES      |
+| FORD       |
+| MILLER     |
+| ACCOUNTING |
+| RESEARCH   |
+| SALES      |
+| OPERATIONS |
++------------+
+18 rows in set (0.01 sec)
+
+mysql> 
+mysql> select sum(sal),job from emp group by job
+    -> union
+    -> select sum(sal) from emp;
+ERROR 1222 (21000): The used SELECT statements have a different number of columns
+mysql> 
+mysql> 
+mysql> select sum(sal),job from emp group by job
+    -> union
+    -> select sum(sal),null from emp;
++----------+-----------+
+| sum(sal) | job       |
++----------+-----------+
+|     4150 | CLERK     |
+|     5600 | SALESMAN  |
+|     8275 | MANAGER   |
+|     6000 | ANALYST   |
+|     5000 | PRESIDENT |
+|    29025 | NULL      |
++----------+-----------+
+6 rows in set (0.00 sec)
+
+mysql> select ename,null "dname" from emp
+    -> union
+    -> select null,dname from dept;
++--------+------------+
+| ename  | dname      |
++--------+------------+
+| SMITH  | NULL       |
+| ALLEN  | NULL       |
+| WARD   | NULL       |
+| JONES  | NULL       |
+| MARTIN | NULL       |
+| BLAKE  | NULL       |
+| CLARK  | NULL       |
+| SCOTT  | NULL       |
+| KING   | NULL       |
+| TURNER | NULL       |
+| ADAMS  | NULL       |
+| JAMES  | NULL       |
+| FORD   | NULL       |
+| MILLER | NULL       |
+| NULL   | ACCOUNTING |
+| NULL   | RESEARCH   |
+| NULL   | SALES      |
+| NULL   | OPERATIONS |
++--------+------------+
+18 rows in set (0.00 sec)
+
+mysql> 
+mysql> select sum(sal),job
+    -> from   emp
+    -> group by job with rollup;
++----------+-----------+
+| sum(sal) | job       |
++----------+-----------+
+|     6000 | ANALYST   |
+|     4150 | CLERK     |
+|     8275 | MANAGER   |
+|     5000 | PRESIDENT |
+|     5600 | SALESMAN  |
+|    29025 | NULL      |
++----------+-----------+
+6 rows in set (0.00 sec)
+
+mysql> select sum(sal),deptno,job
+    -> from   emp
+    -> group by deptno,job with rollup;
++----------+--------+-----------+
+| sum(sal) | deptno | job       |
++----------+--------+-----------+
+|     1300 |     10 | CLERK     |
+|     2450 |     10 | MANAGER   |
+|     5000 |     10 | PRESIDENT |
+|     8750 |     10 | NULL      |
+|     6000 |     20 | ANALYST   |
+|     1900 |     20 | CLERK     |
+|     2975 |     20 | MANAGER   |
+|    10875 |     20 | NULL      |
+|      950 |     30 | CLERK     |
+|     2850 |     30 | MANAGER   |
+|     5600 |     30 | SALESMAN  |
+|     9400 |     30 | NULL      |
+|    29025 |   NULL | NULL      |
++----------+--------+-----------+
+13 rows in set (0.00 sec)
+
+mysql> select sum(sal),deptno,job
+    -> from   emp
+    -> group by deptno,job with rollup
+    -> union
+    -> select sum(sal),deptno,job
+    -> from   emp
+    -> group by job,deptno with rollup;
++----------+--------+-----------+
+| sum(sal) | deptno | job       |
++----------+--------+-----------+
+|     1300 |     10 | CLERK     |
+|     2450 |     10 | MANAGER   |
+|     5000 |     10 | PRESIDENT |
+|     8750 |     10 | NULL      |
+|     6000 |     20 | ANALYST   |
+|     1900 |     20 | CLERK     |
+|     2975 |     20 | MANAGER   |
+|    10875 |     20 | NULL      |
+|      950 |     30 | CLERK     |
+|     2850 |     30 | MANAGER   |
+|     5600 |     30 | SALESMAN  |
+|     9400 |     30 | NULL      |
+|    29025 |   NULL | NULL      |
+|     6000 |   NULL | ANALYST   |
+|     4150 |   NULL | CLERK     |
+|     8275 |   NULL | MANAGER   |
+|     5000 |   NULL | PRESIDENT |
+|     5600 |   NULL | SALESMAN  |
++----------+--------+-----------+
+18 rows in set (0.00 sec)
+
+mysql> 
+mysql> 
+mysql> select ename,null "dname" from emp
+    -> union
+    -> select null,dname from dept
+    -> ORDER BY dname;
++--------+------------+
+| ename  | dname      |
++--------+------------+
+| SMITH  | NULL       |
+| ALLEN  | NULL       |
+| WARD   | NULL       |
+| JONES  | NULL       |
+| MARTIN | NULL       |
+| BLAKE  | NULL       |
+| CLARK  | NULL       |
+| SCOTT  | NULL       |
+| KING   | NULL       |
+| TURNER | NULL       |
+| ADAMS  | NULL       |
+| JAMES  | NULL       |
+| FORD   | NULL       |
+| MILLER | NULL       |
+| NULL   | ACCOUNTING |
+| NULL   | OPERATIONS |
+| NULL   | RESEARCH   |
+| NULL   | SALES      |
++--------+------------+
+18 rows in set (0.00 sec)
+
+mysql> 
+mysql> select ename,null DNAME from emp
+    -> union
+    -> select null,dname from dept
+    -> order by dname;
++--------+------------+
+| ename  | DNAME      |
++--------+------------+
+| SMITH  | NULL       |
+| ALLEN  | NULL       |
+| WARD   | NULL       |
+| JONES  | NULL       |
+| MARTIN | NULL       |
+| BLAKE  | NULL       |
+| CLARK  | NULL       |
+| SCOTT  | NULL       |
+| KING   | NULL       |
+| TURNER | NULL       |
+| ADAMS  | NULL       |
+| JAMES  | NULL       |
+| FORD   | NULL       |
+| MILLER | NULL       |
+| NULL   | ACCOUNTING |
+| NULL   | OPERATIONS |
+| NULL   | RESEARCH   |
+| NULL   | SALES      |
++--------+------------+
+18 rows in set (0.00 sec)
+
+mysql> 
+mysql> select sum(sal),deptno,job
+    -> from   emp
+    -> group by deptno,job with rollup
+    -> union
+    -> select sum(sal),deptno,job
+    -> from   emp
+    -> group by job,deptno with rollup
+    -> 
+    -> ^C
+mysql> select ename from emp
+    -> union
+    -> select dname from dept
+    -> order by dname;
+ERROR 1054 (42S22): Unknown column 'dname' in 'order clause'
+mysql> 
+mysql> 
+mysql> 
+mysql> 
+mysql> SELECT E.ENAME,D.DNAME
+    -> FROM   EMP E INNER JOIN DEPT D
+    -> ON     E.DEPTNO=D.DEPTNO;
++--------+------------+
+| ENAME  | DNAME      |
++--------+------------+
+| CLARK  | ACCOUNTING |
+| KING   | ACCOUNTING |
+| MILLER | ACCOUNTING |
+| SMITH  | RESEARCH   |
+| JONES  | RESEARCH   |
+| SCOTT  | RESEARCH   |
+| ADAMS  | RESEARCH   |
+| FORD   | RESEARCH   |
+| ALLEN  | SALES      |
+| WARD   | SALES      |
+| MARTIN | SALES      |
+| BLAKE  | SALES      |
+| TURNER | SALES      |
+| JAMES  | SALES      |
++--------+------------+
+14 rows in set (0.00 sec)
+
+mysql> #DISPLAY THE ABOVE OUTPUT ONLY FOR SALES
+mysql> SELECT E.ENAME,D.DNAME
+    -> FROM   EMP E INNER JOIN DEPT D
+    -> ON     E.DEPTNO=D.DEPTNO
+    -> WHERE  D.DNAME='SALES';
++--------+-------+
+| ENAME  | DNAME |
++--------+-------+
+| ALLEN  | SALES |
+| WARD   | SALES |
+| MARTIN | SALES |
+| BLAKE  | SALES |
+| TURNER | SALES |
+| JAMES  | SALES |
++--------+-------+
+6 rows in set (0.00 sec)
+
+mysql> SELECT E.ENAME,D.DNAME
+    -> FROM   EMP E INNER JOIN DEPT D
+    -> ON     E.DEPTNO=D.DEPTNO
+    -> AND  D.DNAME='SALES';
++--------+-------+
+| ENAME  | DNAME |
++--------+-------+
+| ALLEN  | SALES |
+| WARD   | SALES |
+| MARTIN | SALES |
+| BLAKE  | SALES |
+| TURNER | SALES |
+| JAMES  | SALES |
++--------+-------+
+6 rows in set (0.00 sec)
+
+mysql> 
+mysql> #FIND OUT TOTAL SALARY IN SALES,ACCOUNTING DEPARTMENT
+mysql> SELECT SUM(SAL) "TOTSAL",D.DNAME
+    -> FROM   EMP E INNER JOIN DEPT D
+    -> ON     E.DEPTNO=D.DEPTNO
+    -> GROUP BY D.DNAME;
++--------+------------+
+| TOTSAL | DNAME      |
++--------+------------+
+|  10875 | RESEARCH   |
+|   9400 | SALES      |
+|   8750 | ACCOUNTING |
++--------+------------+
+3 rows in set (0.00 sec)
+
+mysql> SELECT SUM(SAL) "TOTSAL",D.DNAME
+    -> FROM   EMP E INNER JOIN DEPT D
+    -> ON     E.DEPTNO=D.DEPTNO
+    -> AND    D.DNAME IN('ACCOUNTING','SALES')
+    -> GROUP BY D.DNAME;
++--------+------------+
+| TOTSAL | DNAME      |
++--------+------------+
+|   8750 | ACCOUNTING |
+|   9400 | SALES      |
++--------+------------+
+2 rows in set (0.00 sec)
+
+mysql> #FIND EMPLOYEE WORKING IN CHICAGO AS CLERK
+mysql> SELECT E.ENAME,E.JOB,D.LOC
+    -> FROM   EMP E INNER JOIN DEPT D
+    -> ON     E.DEPTNO=D.DEPTNO
+    -> AND    E.JOB='CLERK'
+    -> AND    D.LOC='CHICAGO';
++-------+-------+---------+
+| ENAME | JOB   | LOC     |
++-------+-------+---------+
+| JAMES | CLERK | CHICAGO |
++-------+-------+---------+
+1 row in set (0.00 sec)
+
+mysql> 
+mysql> start transaction;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> insert into emp(empno,ename) values(2222,'y');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> 
+mysql> 
+mysql> 
+mysql> SELECT E.ENAME,E.JOB,D.LOC
+    -> ^C
+mysql> SELECT E.ENAME,D.DNAME
+    -> FROM   EMP E RIGHT OUTER JOIN DEPT D
+    -> ON     E.DEPTNO=D.DEPTNO;
++--------+------------+
+| ENAME  | DNAME      |
++--------+------------+
+| CLARK  | ACCOUNTING |
+| KING   | ACCOUNTING |
+| MILLER | ACCOUNTING |
+| SMITH  | RESEARCH   |
+| JONES  | RESEARCH   |
+| SCOTT  | RESEARCH   |
+| ADAMS  | RESEARCH   |
+| FORD   | RESEARCH   |
+| ALLEN  | SALES      |
+| WARD   | SALES      |
+| MARTIN | SALES      |
+| BLAKE  | SALES      |
+| TURNER | SALES      |
+| JAMES  | SALES      |
+| NULL   | OPERATIONS |
++--------+------------+
+15 rows in set (0.00 sec)
+
+mysql> 
+mysql> SELECT E.ENAME,D.DNAME
+    -> FROM   EMP E LEFT OUTER JOIN DEPT D
+    -> ON     E.DEPTNO=D.DEPTNO;
++--------+------------+
+| ENAME  | DNAME      |
++--------+------------+
+| y      | NULL       |
+| SMITH  | RESEARCH   |
+| ALLEN  | SALES      |
+| WARD   | SALES      |
+| JONES  | RESEARCH   |
+| MARTIN | SALES      |
+| BLAKE  | SALES      |
+| CLARK  | ACCOUNTING |
+| SCOTT  | RESEARCH   |
+| KING   | ACCOUNTING |
+| TURNER | SALES      |
+| ADAMS  | RESEARCH   |
+| JAMES  | SALES      |
+| FORD   | RESEARCH   |
+| MILLER | ACCOUNTING |
++--------+------------+
+15 rows in set (0.00 sec)
+
+mysql> 
+mysql> SELECT E.ENAME,D.DNAME
+    -> FROM   EMP E RIGHT OUTER JOIN DEPT D
+    -> ON     E.DEPTNO=D.DEPTNO
+    -> UNION
+    -> SELECT E.ENAME,D.DNAME
+    -> FROM   EMP E LEFT OUTER JOIN DEPT D
+    -> ON     E.DEPTNO=D.DEPTNO;
++--------+------------+
+| ENAME  | DNAME      |
++--------+------------+
+| CLARK  | ACCOUNTING |
+| KING   | ACCOUNTING |
+| MILLER | ACCOUNTING |
+| SMITH  | RESEARCH   |
+| JONES  | RESEARCH   |
+| SCOTT  | RESEARCH   |
+| ADAMS  | RESEARCH   |
+| FORD   | RESEARCH   |
+| ALLEN  | SALES      |
+| WARD   | SALES      |
+| MARTIN | SALES      |
+| BLAKE  | SALES      |
+| TURNER | SALES      |
+| JAMES  | SALES      |
+| NULL   | OPERATIONS |
+| y      | NULL       |
++--------+------------+
+16 rows in set (0.00 sec)
+
+mysql> 
+mysql> SELECT E.ENAME,D.DNAME,S.GRADE
+    -> FROM  EMP E INNER JOIN DEPT D
+    -> ON    E.DEPTNO=D.DEPTNO
+    -> JOIN  SALGRADE S
+    -> ON    E.SAL BETWEEN S.LOSAL AND S.HISAL;
++--------+------------+-------+
+| ENAME  | DNAME      | GRADE |
++--------+------------+-------+
+| SMITH  | RESEARCH   |     1 |
+| ALLEN  | SALES      |     3 |
+| WARD   | SALES      |     2 |
+| JONES  | RESEARCH   |     4 |
+| MARTIN | SALES      |     2 |
+| BLAKE  | SALES      |     4 |
+| CLARK  | ACCOUNTING |     4 |
+| SCOTT  | RESEARCH   |     4 |
+| KING   | ACCOUNTING |     5 |
+| TURNER | SALES      |     3 |
+| ADAMS  | RESEARCH   |     1 |
+| JAMES  | SALES      |     1 |
+| FORD   | RESEARCH   |     4 |
+| MILLER | ACCOUNTING |     2 |
++--------+------------+-------+
+14 rows in set (0.01 sec)
+
+mysql> USE HR;
+Database changed
+mysql> SHOW TABLES;
++------------------+
+| Tables_in_hr     |
++------------------+
+| countries        |
+| departments      |
+| emp_details_view |
+| employees        |
+| job_grades       |
+| job_history      |
+| jobs             |
+| locations        |
+| regions          |
++------------------+
+9 rows in set (0.00 sec)
+
+mysql> select * from regions;
++-----------+------------------------+
+| region_id | region_name            |
++-----------+------------------------+
+|         1 | Europe                 |
+|         2 | Americas               |
+|         3 | Asia                   |
+|         4 | Middle East and Africa |
++-----------+------------------------+
+4 rows in set (0.01 sec)
+
+mysql> desc regions;
++-------------+--------------+------+-----+---------+-------+
+| Field       | Type         | Null | Key | Default | Extra |
++-------------+--------------+------+-----+---------+-------+
+| region_id   | int unsigned | NO   | PRI | NULL    |       |
+| region_name | varchar(25)  | YES  |     | NULL    |       |
++-------------+--------------+------+-----+---------+-------+
+2 rows in set (0.00 sec)
+
+mysql> desc countries;
++--------------+--------------+------+-----+---------+-------+
+| Field        | Type         | Null | Key | Default | Extra |
++--------------+--------------+------+-----+---------+-------+
+| country_id   | char(2)      | NO   | PRI | NULL    |       |
+| country_name | varchar(40)  | YES  |     | NULL    |       |
+| region_id    | int unsigned | NO   | MUL | NULL    |       |
++--------------+--------------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+mysql> select r.region_name,c.country_name from regions r inner join countries c
+    -> on     r.region_id=c.region_id;
++------------------------+--------------------------+
+| region_name            | country_name             |
++------------------------+--------------------------+
+| Americas               | Argentina                |
+| Asia                   | Australia                |
+| Europe                 | Belgium                  |
+| Americas               | Brazil                   |
+| Americas               | Canada                   |
+| Europe                 | Switzerland              |
+| Asia                   | China                    |
+| Europe                 | Germany                  |
+| Europe                 | Denmark                  |
+| Middle East and Africa | Egypt                    |
+| Europe                 | France                   |
+| Asia                   | HongKong                 |
+| Middle East and Africa | Israel                   |
+| Asia                   | India                    |
+| Europe                 | Italy                    |
+| Asia                   | Japan                    |
+| Middle East and Africa | Kuwait                   |
+| Americas               | Mexico                   |
+| Middle East and Africa | Nigeria                  |
+| Europe                 | Netherlands              |
+| Asia                   | Singapore                |
+| Europe                 | United Kingdom           |
+| Americas               | United States of America |
+| Middle East and Africa | Zambia                   |
+| Middle East and Africa | Zimbabwe                 |
++------------------------+--------------------------+
+25 rows in set (0.01 sec)
+
+mysql> 
+mysql> desc locations;
++----------------+--------------+------+-----+---------+----------------+
+| Field          | Type         | Null | Key | Default | Extra          |
++----------------+--------------+------+-----+---------+----------------+
+| location_id    | int unsigned | NO   | PRI | NULL    | auto_increment |
+| street_address | varchar(40)  | YES  |     | NULL    |                |
+| postal_code    | varchar(12)  | YES  |     | NULL    |                |
+| city           | varchar(30)  | NO   |     | NULL    |                |
+| state_province | varchar(25)  | YES  |     | NULL    |                |
+| country_id     | char(2)      | NO   | MUL | NULL    |                |
++----------------+--------------+------+-----+---------+----------------+
+6 rows in set (0.00 sec)
+
+mysql> select r.region_name,c.country_name,l.city from regions r inner join countries c
+    -> on     r.region_id=c.region_id
+    -> join locations l on l.country_id=c.country_id;
++-------------+--------------------------+---------------------+
+| region_name | country_name             | city                |
++-------------+--------------------------+---------------------+
+| Europe      | Italy                    | Roma                |
+| Europe      | Italy                    | Venice              |
+| Asia        | Japan                    | Tokyo               |
+| Asia        | Japan                    | Hiroshima           |
+| Americas    | United States of America | Southlake           |
+| Americas    | United States of America | South San Francisco |
+| Americas    | United States of America | South Brunswick     |
+| Americas    | United States of America | Seattle             |
+| Americas    | Canada                   | Toronto             |
+| Americas    | Canada                   | Whitehorse          |
+| Asia        | China                    | Beijing             |
+| Asia        | India                    | Bombay              |
+| Asia        | Australia                | Sydney              |
+| Asia        | Singapore                | Singapore           |
+| Europe      | United Kingdom           | London              |
+| Europe      | United Kingdom           | Oxford              |
+| Europe      | United Kingdom           | Stretford           |
+| Europe      | Germany                  | Munich              |
+| Americas    | Brazil                   | Sao Paulo           |
+| Europe      | Switzerland              | Geneva              |
+| Europe      | Switzerland              | Bern                |
+| Europe      | Netherlands              | Utrecht             |
+| Americas    | Mexico                   | Mexico City         |
++-------------+--------------------------+---------------------+
+23 rows in set (0.00 sec)
+
+mysql> 
+mysql> select r.region_name,c.country_name,l.city,d.department_name,concat(e.first_name,' ',e.last_name) "name"              from regions r inner join countries c
+    -> on     r.region_id=c.region_id
+    -> join locations l on l.country_id=c.country_id
+    -> join departments d on d.location_id=l.location_id
+    -> join employees   e on d.department_id=e.department_id;
++-------------+--------------------------+---------------------+------------------+-------------------+
+| region_name | country_name             | city                | department_name  | name              |
++-------------+--------------------------+---------------------+------------------+-------------------+
+| Americas    | United States of America | Seattle             | Administration   | Jennifer Whalen   |
+| Americas    | Canada                   | Toronto             | Marketing        | Michael Hartstein |
+| Americas    | Canada                   | Toronto             | Marketing        | Pat Fay           |
+| Americas    | United States of America | Seattle             | Purchasing       | Den Raphaely      |
+| Americas    | United States of America | Seattle             | Purchasing       | Alexander Khoo    |
+| Americas    | United States of America | Seattle             | Purchasing       | Shelli Baida      |
+| Americas    | United States of America | Seattle             | Purchasing       | Sigal Tobias      |
+| Americas    | United States of America | Seattle             | Purchasing       | Guy Himuro        |
+| Americas    | United States of America | Seattle             | Purchasing       | Karen Colmenares  |
+| Europe      | United Kingdom           | London              | Human Resources  | Susan Mavris      |
+| Americas    | United States of America | South San Francisco | Shipping         | Matthew Weiss     |
+| Americas    | United States of America | South San Francisco | Shipping         | Adam Fripp        |
+| Americas    | United States of America | South San Francisco | Shipping         | Payam Kaufling    |
+| Americas    | United States of America | South San Francisco | Shipping         | Shanta Vollman    |
+| Americas    | United States of America | South San Francisco | Shipping         | Kevin Mourgos     |
+| Americas    | United States of America | South San Francisco | Shipping         | Julia Nayer       |
+| Americas    | United States of America | South San Francisco | Shipping         | Irene Mikkilineni |
+| Americas    | United States of America | South San Francisco | Shipping         | James Landry      |
+| Americas    | United States of America | South San Francisco | Shipping         | Steven Markle     |
+| Americas    | United States of America | South San Francisco | Shipping         | Laura Bissot      |
+| Americas    | United States of America | South San Francisco | Shipping         | Mozhe Atkinson    |
+| Americas    | United States of America | South San Francisco | Shipping         | James Marlow      |
+| Americas    | United States of America | South San Francisco | Shipping         | TJ Olson          |
+| Americas    | United States of America | South San Francisco | Shipping         | Jason Mallin      |
+| Americas    | United States of America | South San Francisco | Shipping         | Michael Rogers    |
+| Americas    | United States of America | South San Francisco | Shipping         | Ki Gee            |
+| Americas    | United States of America | South San Francisco | Shipping         | Hazel Philtanker  |
+| Americas    | United States of America | South San Francisco | Shipping         | Renske Ladwig     |
+| Americas    | United States of America | South San Francisco | Shipping         | Stephen Stiles    |
+| Americas    | United States of America | South San Francisco | Shipping         | John Seo          |
+| Americas    | United States of America | South San Francisco | Shipping         | Joshua Patel      |
+| Americas    | United States of America | South San Francisco | Shipping         | Trenna Rajs       |
+| Americas    | United States of America | South San Francisco | Shipping         | Curtis Davies     |
+| Americas    | United States of America | South San Francisco | Shipping         | Randall Matos     |
+| Americas    | United States of America | South San Francisco | Shipping         | Peter Vargas      |
+| Americas    | United States of America | South San Francisco | Shipping         | Winston Taylor    |
+| Americas    | United States of America | South San Francisco | Shipping         | Jean Fleaur       |
+| Americas    | United States of America | South San Francisco | Shipping         | Martha Sullivan   |
+| Americas    | United States of America | South San Francisco | Shipping         | Girard Geoni      |
+| Americas    | United States of America | South San Francisco | Shipping         | Nandita Sarchand  |
+| Americas    | United States of America | South San Francisco | Shipping         | Alexis Bull       |
+| Americas    | United States of America | South San Francisco | Shipping         | Julia Dellinger   |
+| Americas    | United States of America | South San Francisco | Shipping         | Anthony Cabrio    |
+| Americas    | United States of America | South San Francisco | Shipping         | Kelly Chung       |
+| Americas    | United States of America | South San Francisco | Shipping         | Jennifer Dilly    |
+| Americas    | United States of America | South San Francisco | Shipping         | Timothy Gates     |
+| Americas    | United States of America | South San Francisco | Shipping         | Randall Perkins   |
+| Americas    | United States of America | South San Francisco | Shipping         | Sarah Bell        |
+| Americas    | United States of America | South San Francisco | Shipping         | Britney Everett   |
+| Americas    | United States of America | South San Francisco | Shipping         | Samuel McCain     |
+| Americas    | United States of America | South San Francisco | Shipping         | Vance Jones       |
+| Americas    | United States of America | South San Francisco | Shipping         | Alana Walsh       |
+| Americas    | United States of America | South San Francisco | Shipping         | Kevin Feeney      |
+| Americas    | United States of America | South San Francisco | Shipping         | Donald OConnell   |
+| Americas    | United States of America | South San Francisco | Shipping         | Douglas Grant     |
+| Americas    | United States of America | Southlake           | IT               | Alexander Hunold  |
+| Americas    | United States of America | Southlake           | IT               | Bruce Ernst       |
+| Americas    | United States of America | Southlake           | IT               | David Austin      |
+| Americas    | United States of America | Southlake           | IT               | Valli Pataballa   |
+| Americas    | United States of America | Southlake           | IT               | Diana Lorentz     |
+| Europe      | Germany                  | Munich              | Public Relations | Hermann Baer      |
+| Europe      | United Kingdom           | Oxford              | Sales            | John Russell      |
+| Europe      | United Kingdom           | Oxford              | Sales            | Karen Partners    |
+| Europe      | United Kingdom           | Oxford              | Sales            | Alberto Errazuriz |
+| Europe      | United Kingdom           | Oxford              | Sales            | Gerald Cambrault  |
+| Europe      | United Kingdom           | Oxford              | Sales            | Eleni Zlotkey     |
+| Europe      | United Kingdom           | Oxford              | Sales            | Peter Tucker      |
+| Europe      | United Kingdom           | Oxford              | Sales            | David Bernstein   |
+| Europe      | United Kingdom           | Oxford              | Sales            | Peter Hall        |
+| Europe      | United Kingdom           | Oxford              | Sales            | Christopher Olsen |
+| Europe      | United Kingdom           | Oxford              | Sales            | Nanette Cambrault |
+| Europe      | United Kingdom           | Oxford              | Sales            | Oliver Tuvault    |
+| Europe      | United Kingdom           | Oxford              | Sales            | Janette King      |
+| Europe      | United Kingdom           | Oxford              | Sales            | Patrick Sully     |
+| Europe      | United Kingdom           | Oxford              | Sales            | Allan McEwen      |
+| Europe      | United Kingdom           | Oxford              | Sales            | Lindsey Smith     |
+| Europe      | United Kingdom           | Oxford              | Sales            | Louise Doran      |
+| Europe      | United Kingdom           | Oxford              | Sales            | Sarath Sewall     |
+| Europe      | United Kingdom           | Oxford              | Sales            | Clara Vishney     |
+| Europe      | United Kingdom           | Oxford              | Sales            | Danielle Greene   |
+| Europe      | United Kingdom           | Oxford              | Sales            | Mattea Marvins    |
+| Europe      | United Kingdom           | Oxford              | Sales            | David Lee         |
+| Europe      | United Kingdom           | Oxford              | Sales            | Sundar Ande       |
+| Europe      | United Kingdom           | Oxford              | Sales            | Amit Banda        |
+| Europe      | United Kingdom           | Oxford              | Sales            | Lisa Ozer         |
+| Europe      | United Kingdom           | Oxford              | Sales            | Harrison Bloom    |
+| Europe      | United Kingdom           | Oxford              | Sales            | Tayler Fox        |
+| Europe      | United Kingdom           | Oxford              | Sales            | William Smith     |
+| Europe      | United Kingdom           | Oxford              | Sales            | Elizabeth Bates   |
+| Europe      | United Kingdom           | Oxford              | Sales            | Sundita Kumar     |
+| Europe      | United Kingdom           | Oxford              | Sales            | Ellen Abel        |
+| Europe      | United Kingdom           | Oxford              | Sales            | Alyssa Hutton     |
+| Europe      | United Kingdom           | Oxford              | Sales            | Jonathon Taylor   |
+| Europe      | United Kingdom           | Oxford              | Sales            | Jack Livingston   |
+| Europe      | United Kingdom           | Oxford              | Sales            | Charles Johnson   |
+| Americas    | United States of America | Seattle             | Executive        | Steven King       |
+| Americas    | United States of America | Seattle             | Executive        | Neena Kochhar     |
+| Americas    | United States of America | Seattle             | Executive        | Lex De Haan       |
+| Americas    | United States of America | Seattle             | Finance          | Nancy Greenberg   |
+| Americas    | United States of America | Seattle             | Finance          | Daniel Faviet     |
+| Americas    | United States of America | Seattle             | Finance          | John Chen         |
+| Americas    | United States of America | Seattle             | Finance          | Ismael Sciarra    |
+| Americas    | United States of America | Seattle             | Finance          | Jose Manuel Urman |
+| Americas    | United States of America | Seattle             | Finance          | Luis Popp         |
+| Americas    | United States of America | Seattle             | Accounting       | Shelley Higgins   |
+| Americas    | United States of America | Seattle             | Accounting       | William Gietz     |
++-------------+--------------------------+---------------------+------------------+-------------------+
+106 rows in set (0.00 sec)
+
+mysql> 
+mysql> #display employee name and his manager name
+mysql> select concat(e.first_name," ",e.last_name) "empname",
+    ->  concat(m.first_name," ",m.last_name) "manname"
+    -> from   employees e join employees m
+    -> on     e.manager_id=m.employee_id;
++-------------------+-------------------+
+| empname           | manname           |
++-------------------+-------------------+
+| Neena Kochhar     | Steven King       |
+| Lex De Haan       | Steven King       |
+| Alexander Hunold  | Lex De Haan       |
+| Bruce Ernst       | Alexander Hunold  |
+| David Austin      | Alexander Hunold  |
+| Valli Pataballa   | Alexander Hunold  |
+| Diana Lorentz     | Alexander Hunold  |
+| Nancy Greenberg   | Neena Kochhar     |
+| Daniel Faviet     | Nancy Greenberg   |
+| John Chen         | Nancy Greenberg   |
+| Ismael Sciarra    | Nancy Greenberg   |
+| Jose Manuel Urman | Nancy Greenberg   |
+| Luis Popp         | Nancy Greenberg   |
+| Den Raphaely      | Steven King       |
+| Alexander Khoo    | Den Raphaely      |
+| Shelli Baida      | Den Raphaely      |
+| Sigal Tobias      | Den Raphaely      |
+| Guy Himuro        | Den Raphaely      |
+| Karen Colmenares  | Den Raphaely      |
+| Matthew Weiss     | Steven King       |
+| Adam Fripp        | Steven King       |
+| Payam Kaufling    | Steven King       |
+| Shanta Vollman    | Steven King       |
+| Kevin Mourgos     | Steven King       |
+| Julia Nayer       | Matthew Weiss     |
+| Irene Mikkilineni | Matthew Weiss     |
+| James Landry      | Matthew Weiss     |
+| Steven Markle     | Matthew Weiss     |
+| Laura Bissot      | Adam Fripp        |
+| Mozhe Atkinson    | Adam Fripp        |
+| James Marlow      | Adam Fripp        |
+| TJ Olson          | Adam Fripp        |
+| Jason Mallin      | Payam Kaufling    |
+| Michael Rogers    | Payam Kaufling    |
+| Ki Gee            | Payam Kaufling    |
+| Hazel Philtanker  | Payam Kaufling    |
+| Renske Ladwig     | Shanta Vollman    |
+| Stephen Stiles    | Shanta Vollman    |
+| John Seo          | Shanta Vollman    |
+| Joshua Patel      | Shanta Vollman    |
+| Trenna Rajs       | Kevin Mourgos     |
+| Curtis Davies     | Kevin Mourgos     |
+| Randall Matos     | Kevin Mourgos     |
+| Peter Vargas      | Kevin Mourgos     |
+| John Russell      | Steven King       |
+| Karen Partners    | Steven King       |
+| Alberto Errazuriz | Steven King       |
+| Gerald Cambrault  | Steven King       |
+| Eleni Zlotkey     | Steven King       |
+| Peter Tucker      | John Russell      |
+| David Bernstein   | John Russell      |
+| Peter Hall        | John Russell      |
+| Christopher Olsen | John Russell      |
+| Nanette Cambrault | John Russell      |
+| Oliver Tuvault    | John Russell      |
+| Janette King      | Karen Partners    |
+| Patrick Sully     | Karen Partners    |
+| Allan McEwen      | Karen Partners    |
+| Lindsey Smith     | Karen Partners    |
+| Louise Doran      | Karen Partners    |
+| Sarath Sewall     | Karen Partners    |
+| Clara Vishney     | Alberto Errazuriz |
+| Danielle Greene   | Alberto Errazuriz |
+| Mattea Marvins    | Alberto Errazuriz |
+| David Lee         | Alberto Errazuriz |
+| Sundar Ande       | Alberto Errazuriz |
+| Amit Banda        | Alberto Errazuriz |
+| Lisa Ozer         | Gerald Cambrault  |
+| Harrison Bloom    | Gerald Cambrault  |
+| Tayler Fox        | Gerald Cambrault  |
+| William Smith     | Gerald Cambrault  |
+| Elizabeth Bates   | Gerald Cambrault  |
+| Sundita Kumar     | Gerald Cambrault  |
+| Ellen Abel        | Eleni Zlotkey     |
+| Alyssa Hutton     | Eleni Zlotkey     |
+| Jonathon Taylor   | Eleni Zlotkey     |
+| Jack Livingston   | Eleni Zlotkey     |
+| Kimberely Grant   | Eleni Zlotkey     |
+| Charles Johnson   | Eleni Zlotkey     |
+| Winston Taylor    | Matthew Weiss     |
+| Jean Fleaur       | Matthew Weiss     |
+| Martha Sullivan   | Matthew Weiss     |
+| Girard Geoni      | Matthew Weiss     |
+| Nandita Sarchand  | Adam Fripp        |
+| Alexis Bull       | Adam Fripp        |
+| Julia Dellinger   | Adam Fripp        |
+| Anthony Cabrio    | Adam Fripp        |
+| Kelly Chung       | Payam Kaufling    |
+| Jennifer Dilly    | Payam Kaufling    |
+| Timothy Gates     | Payam Kaufling    |
+| Randall Perkins   | Payam Kaufling    |
+| Sarah Bell        | Shanta Vollman    |
+| Britney Everett   | Shanta Vollman    |
+| Samuel McCain     | Shanta Vollman    |
+| Vance Jones       | Shanta Vollman    |
+| Alana Walsh       | Kevin Mourgos     |
+| Kevin Feeney      | Kevin Mourgos     |
+| Donald OConnell   | Kevin Mourgos     |
+| Douglas Grant     | Kevin Mourgos     |
+| Jennifer Whalen   | Neena Kochhar     |
+| Michael Hartstein | Steven King       |
+| Pat Fay           | Michael Hartstein |
+| Susan Mavris      | Neena Kochhar     |
+| Hermann Baer      | Neena Kochhar     |
+| Shelley Higgins   | Neena Kochhar     |
+| William Gietz     | Shelley Higgins   |
++-------------------+-------------------+
+106 rows in set (0.00 sec)
+
+mysql> NOTEE;

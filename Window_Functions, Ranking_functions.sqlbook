@@ -1,0 +1,50 @@
+-- SQLBook: Markup
+Window Functions:
+-------------------
+-- SQLBook: Code
+-- Active: 1671690241285@@127.0.0.1@3308@sal
+use sal;
+-- SQLBook: Code
+select count(*) "Total number of employees" from emp;
+-- SQLBook: Code
+select count(*) "number of employees in each dept ", deptno from emp group by(deptno);
+-- SQLBook: Code
+select count(*) over(), deptno from emp;
+-- SQLBook: Code
+select ename, sal, (select sum(sal) from emp where empno <= e.empno) "run" from emp e;
+-- SQLBook: Markup
+Running Summation
+-----------------
+-- SQLBook: Code
+select sal,sum(sal) over(order by sal) from emp;
+-- SQLBook: Markup
+Ranking Functions:
+------------------
+-- SQLBook: Code
+select ename, sal, row_number() over() from emp;
+
+select ename, sal, row_number() over() from emp order by sal desc; 
+
+-- both are same.
+
+select ename, sal, row_number() over(order by sal desc) from emp;
+-- SQLBook: Code
+select ename, hiredate, lag(hiredate) over(order by hiredate), TIMESTAMPDIFF(day,`HIREDATE`,lag(`HIREDATE`) over(order by `HIREDATE`)) from emp where job = "Analyst";
+-- SQLBook: Markup
+LAST_VALUE FN:
+---------------
+-- SQLBook: Code
+select ename, sal, last_value(sal) over() from emp;
+
+select ename, sal, last_value(sal) over(range BETWEEN UNBOUNDED PRECEDING and UNBOUNDED FOLLOWING) from emp;
+
+select ename, sal, last_value(sal) over(rows BETWEEN UNBOUNDED PRECEDING and CURRENT row) from emp;
+
+select ename, sal, last_value(sal) over(rows BETWEEN CURRENT row and unbounded following) from emp;
+-- SQLBook: Markup
+Partitions:
+------------
+-- SQLBook: Code
+select ename, sal, deptno,  sum(sal) over(partition by deptno order by deptno) from emp;
+
+select deptno, sum(sal) from emp group by deptno ;

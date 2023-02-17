@@ -1,0 +1,100 @@
+MySQL both queries and data are case insensitive.
+----------------------------------------------------
+
+Alias - changes the display name of column or table.
+---------------------------------------------------
+
+"dnk dan" ------------or------- as kjfrfne -------or--------- halvbdf.
+
+In the first alias space is included.
+
+To display additional column, existing_col + integer as <new_col_name>, which is referred as derived attribute.
+                                                                                             ------------------
+
+eg:
+----
+select ename, sal, (0.4*sal) as hra, (0.3*sal) as da, (0.12*sal) as pf, (0.1*sal) as tax, round((1.7*sal - 0.22*sal),2) as totalsal from emp;
+
+set @hra = 0.4*sal, @da = 0.3*sal, @pf = 0.12*sal, @tax = 0.1;
+
+By binding:
+--------------
+
+select @sal := sal as sal,@hra := 0.4*sal as hra, @da := 0.3*sal as da, @pf := 0.12*sal as pf, @tax := 0.1*sal as tax , @totalsal := @sal + @hra + @da - @pf - @tax as total_sal from emp;
+
+
+ORDER OF EXECUTION:
+----------------------
+SELECT (PROJECTION) *
+FROM  <TABLENAME>
+WHERE RESTRICTION
+GROUP BY
+HAVING
+ORDER BY
+
+
+DISTINCT - Removes the duplicates.
+----------------------------------
+
+* can use distinct on multiple columns.
+----------------------------------------
+
+eg:  select distinct(deptno),job from emp;
+
+Applied only on first column, 2nd column having duplicates will be displayed only once.
+
+
+ORDER BY CLAUSE:
+----------------
+
+select ename, deptno, job from emp order by 2,3;
+
+if deptno has duplicates job is sorted in asc.
+
+* order by ALIAS is also supported by MySQL database vendor.
+
+
+LIMIT CLAUSE:
+-------------
+
+Limits the number of rows for display.
+
+eg:
+
+select distinct(sal) from emp order by sal desc limit 3;
+
+select distinct(sal) from emp order by sal desc limit 1,3;
+
+1st row is skipped.
+
+
+OFFSET CLAUSE:
+--------------
+
+Number of rows has to be skipped from start.
+
+select distinct(sal) from emp order by sal desc limit 3 offset 1;
+
+select distinct(sal) from emp order by sal desc limit 1,3;
+
+both gives the same result.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
